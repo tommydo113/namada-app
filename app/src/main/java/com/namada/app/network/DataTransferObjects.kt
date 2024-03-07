@@ -141,7 +141,7 @@ data class PubKey (
 data class NetworkValidator (
     @Json(name="address"           ) var address          : String? = null,
     @Json(name="pub_key"           ) var pubKey           : PubKey? = PubKey(),
-    @Json(name="voting_power"      ) var votingPower      : Int?    = null,
+    @Json(name="voting_power"      ) var votingPower      : Long?    = null,
     @Json(name="proposer_priority" ) var proposerPriority : String? = null,
     @Json(name="voting_percentage" ) var votingPercentage : Double? = null,
     @Json(name="moniker"           ) var moniker          : String? = null,

@@ -28,10 +28,10 @@ class ValidatorViewModel(application: Application) : AndroidViewModel(applicatio
         uiScope.launch {
             try {
                 val validators = AppNetwork.appService.getValidatorList().currentValidatorsList.asValidatorModel()
-                println(validators)
+                println("validator $validators")
                 _validators.postValue(validators)
             }catch (e: Exception){
-
+                e.printStackTrace()
             }
         }
     }

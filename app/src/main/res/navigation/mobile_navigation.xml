@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_validator"
         android:name="com.namada.app.ui.validator.ValidatorFragment"
         android:label="@string/title_validator"
         tools:layout="@layout/fragment_validator" />

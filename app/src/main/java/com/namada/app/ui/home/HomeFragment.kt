@@ -1,7 +1,5 @@
 package com.namada.app.ui.home
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,16 +11,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.namada.app.R
 import com.namada.app.databinding.BlockItemBinding
 import com.namada.app.databinding.FragmentHomeBinding
 import com.namada.app.domain.Block
-import org.w3c.dom.Text
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-
+    private lateinit var swipeContainer: SwipeRefreshLayout
     /**
      * One way to delay creation of the viewModel until an appropriate lifecycle method is to use
      * lazy. This requires that viewModel not be referenced before onActivityCreated, which we
@@ -65,6 +63,10 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = viewModelAdapter
         }
+        swipeContainer = root.findViewById<SwipeRefreshLayout>(R.id.swipeContainer)
+        swipeContainer.setOnRefreshListener {
+            viewModel.refresh()
+        }
         return root
     }
 
@@ -81,7 +83,9 @@ class HomeFragment : Fragment() {
                 viewModelAdapter?.blocks = blocks
             }
         }
-
+        viewModel.isRefreshing.observe(viewLifecycleOwner){ isRefreshing ->
+            swipeContainer.isRefreshing = isRefreshing
+        }
     }
 
     override fun onDestroyView() {
@@ -151,6 +155,11 @@ class BlockAdapter(val callback: BlockClick) : RecyclerView.Adapter<BlockViewHol
         holder.blockHeight.text = ""+ item.height
         holder.txCount.text = "Tx: "+ item.txCount
         holder.proposer.text = "Proposer: "+ item.proposerAddress
+    }
+
+    fun clear() {
+        blocks = emptyList()
+        notifyDataSetChanged()
     }
 
 }

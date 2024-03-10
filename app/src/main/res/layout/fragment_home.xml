@@ -23,7 +23,8 @@
             name="viewModel"
             type="com.namada.app.ui.home.HomeViewModel" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -33,5 +34,5 @@
             android:layout_height="match_parent"
             tools:listitem="@layout/block_item" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

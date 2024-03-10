@@ -17,21 +17,28 @@ class ProposalViewModel(application: Application) : AndroidViewModel(application
     private val uiScope = CoroutineScope(Dispatchers.IO + viewModelJob)
     private val _proposals = MutableLiveData<List<Proposal>>()
     val proposals: LiveData<List<Proposal>> = _proposals
-
+    private val _isRefreshing = MutableLiveData<Boolean>()
+    val isRefreshing: LiveData<Boolean> = _isRefreshing
     init {
-        getValidatorsFromApi()
+        getProposalsFromApi()
     }
 
-    private fun getValidatorsFromApi() {
+    private fun getProposalsFromApi() {
+        _isRefreshing.postValue(true)
         uiScope.launch {
             try {
                 val proposalList = AppNetwork2.appService.getProposalList().proposals.asProposalModel()
-                println("proposalList $proposalList")
+//                println("proposalList $proposalList")
+                _isRefreshing.postValue(false)
                 _proposals.postValue(proposalList)
             }catch (e: Exception){
                 e.printStackTrace()
+                _isRefreshing.postValue(false)
             }
         }
+    }
+    fun refresh() {
+        getProposalsFromApi()
     }
     override fun onCleared() {
         super.onCleared()

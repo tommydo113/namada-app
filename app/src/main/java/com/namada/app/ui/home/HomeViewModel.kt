@@ -18,28 +18,29 @@ import java.util.logging.Logger
 
 class HomeViewModel(application: Application) : AndroidViewModel(application){
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "Welcome"
-    }
-    val text: LiveData<String> = _text
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.IO + viewModelJob)
 
     private val _blocks = MutableLiveData<List<Block>>()
     val blocks: LiveData<List<Block>> = _blocks
 
+    private val _isRefreshing = MutableLiveData<Boolean>()
+    val isRefreshing: LiveData<Boolean> = _isRefreshing
+
     init {
         getBlocksFromApi()
     }
 
     private fun getBlocksFromApi() {
+        _isRefreshing.postValue(true)
         uiScope.launch {
             try {
                 val blocks = AppNetwork.appService.getBlocklist().asDomainModel()
                 println("blocks: $blocks")
+                _isRefreshing.postValue(false)
                 _blocks.postValue(blocks)
             }catch (e: Exception){
-
+                _isRefreshing.postValue(false)
             }
 
         }
@@ -48,5 +49,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+    }
+
+    fun refresh() {
+        getBlocksFromApi()
     }
 }

@@ -19,21 +19,28 @@ class ValidatorViewModel(application: Application) : AndroidViewModel(applicatio
     private val uiScope = CoroutineScope(Dispatchers.IO + viewModelJob)
     private val _validators = MutableLiveData<List<Validator>>()
     val validators: LiveData<List<Validator>> = _validators
-
+    private val _isRefreshing = MutableLiveData<Boolean>()
+    val isRefreshing: LiveData<Boolean> = _isRefreshing
     init {
         getValidatorsFromApi()
     }
 
     private fun getValidatorsFromApi() {
+        _isRefreshing.postValue(true)
         uiScope.launch {
             try {
                 val validators = AppNetwork.appService.getValidatorList().currentValidatorsList.asValidatorModel()
-                println("validator $validators")
+//                println("validator $validators")
+                _isRefreshing.postValue(false)
                 _validators.postValue(validators)
             }catch (e: Exception){
                 e.printStackTrace()
+                _isRefreshing.postValue(false)
             }
         }
+    }
+    fun refresh() {
+        getValidatorsFromApi()
     }
     override fun onCleared() {
         super.onCleared()

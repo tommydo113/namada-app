@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.namada.app.R
 import com.namada.app.databinding.FragmentValidatorBinding
 import com.namada.app.databinding.ValidatorItemBinding
@@ -18,7 +19,7 @@ import com.namada.app.domain.Validator
 class ValidatorFragment : Fragment() {
 
     private var _binding: FragmentValidatorBinding? = null
-
+    private lateinit var swipeContainer: SwipeRefreshLayout
     /**
      * One way to delay creation of the viewModel until an appropriate lifecycle method is to use
      * lazy. This requires that viewModel not be referenced before onActivityCreated, which we
@@ -50,6 +51,10 @@ class ValidatorFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = viewModelAdapter
         }
+        swipeContainer = root.findViewById<SwipeRefreshLayout>(R.id.swipeContainer)
+        swipeContainer.setOnRefreshListener {
+            viewModel.refresh()
+        }
         return root
     }
 
@@ -66,7 +71,9 @@ class ValidatorFragment : Fragment() {
                 viewModelAdapter?.validators = validators
             }
         }
-
+        viewModel.isRefreshing.observe(viewLifecycleOwner){ isRefreshing ->
+            swipeContainer.isRefreshing = isRefreshing
+        }
     }
 
     override fun onDestroyView() {

@@ -112,11 +112,11 @@ data class NetworkBlock(
 fun List<NetworkBlock>.asDomainModel(): List<Block> {
     return map {
         Block(
-                title = it.block_id ?: "",
-                description = it.header_app_hash ?: "",
-                url = it.header_chain_id ?: "",
-                updated = "it.",
-                thumbnail = "it.thumbnail")
+                hash = it.header_last_block_id_hash ?: "",
+                time = it.header_time ?: "",
+                proposerAddress = it.header_proposer_address ?: "",
+                height = it.header_height,
+                txCount = it.transactions_count ?: "")
     }
 }
 

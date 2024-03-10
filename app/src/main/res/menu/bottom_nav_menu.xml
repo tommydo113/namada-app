@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/cube_scan"
         android:title="@string/title_blocks" />
 
     <item
         android:id="@+id/navigation_validator"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/account_group"
         android:title="@string/title_validator" />
 
     <item
         android:id="@+id/navigation_proposal"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/vote_outline"
         android:title="@string/title_proposal"/>
 
     <item

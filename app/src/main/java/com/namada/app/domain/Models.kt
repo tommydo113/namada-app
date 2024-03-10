@@ -29,17 +29,15 @@ import com.namada.app.util.smartTruncate
 /**
  * Blocks represent a Block that can be played.
  */
-data class Block(val title: String,
-                 val description: String,
-                 val url: String,
-                 val updated: String,
-                 val thumbnail: String) {
+data class Block(val hash: String,
+                 val time: String,
+                 val proposerAddress: String,
+                 val height: Int,
+                 val txCount: String
+    ) {
 
-    /**
-     * Short description is used for displaying truncated descriptions in the UI
-     */
-    val shortDescription: String
-        get() = description.smartTruncate(200)
+    val displayTime: String
+        get() = time
 }
 data class Validator(val address: String,
                      val moniker: String,

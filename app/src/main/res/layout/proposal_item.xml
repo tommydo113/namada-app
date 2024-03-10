@@ -54,7 +54,7 @@
                 app:srcCompat="@drawable/ic_home_black_24dp" />
 
             <TextView
-                android:id="@+id/title"
+                android:id="@+id/block_hash"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -84,7 +84,7 @@
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="@+id/right_well"
                 app:layout_constraintStart_toStartOf="@+id/left_well"
-                app:layout_constraintTop_toBottomOf="@+id/title"
+                app:layout_constraintTop_toBottomOf="@+id/block_hash"
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:text="this is a proposal @android:string/fingerprint_icon_content_description" />
 

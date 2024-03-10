@@ -26,7 +26,7 @@ import retrofit2.http.GET
 
 
 interface AppService {
-    @GET("node/blocks/list/10")
+    @GET("node/blocks/list/50")
     suspend fun getBlocklist(): List<NetworkBlock>
 
     @GET("node/validators/list")

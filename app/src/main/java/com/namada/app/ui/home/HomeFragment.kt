@@ -17,6 +17,7 @@ import com.namada.app.R
 import com.namada.app.databinding.BlockItemBinding
 import com.namada.app.databinding.FragmentHomeBinding
 import com.namada.app.domain.Block
+import org.w3c.dom.Text
 
 class HomeFragment : Fragment() {
 
@@ -57,17 +58,12 @@ class HomeFragment : Fragment() {
 
             // context is not around, we can safely discard this click since the Fragment is no
             // longer on the screen
-            val packageManager = context?.packageManager ?: return@BlockClick
             println("click")
 
         })
         root.findViewById<RecyclerView>(R.id.recycler_view).apply {
             layoutManager = LinearLayoutManager(context)
             adapter = viewModelAdapter
-        }
-        val textView: TextView = binding.textHome
-        viewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
         }
         return root
     }
@@ -151,6 +147,10 @@ class BlockAdapter(val callback: BlockClick) : RecyclerView.Adapter<BlockViewHol
             it.block = blocks[position]
             it.blockCallback = callback
         }
+        val item = blocks[position]
+        holder.blockHeight.text = ""+ item.height
+        holder.txCount.text = "Tx: "+ item.txCount
+        holder.proposer.text = "Proposer: "+ item.proposerAddress
     }
 
 }
@@ -159,6 +159,9 @@ class BlockAdapter(val callback: BlockClick) : RecyclerView.Adapter<BlockViewHol
  */
 class BlockViewHolder(val viewDataBinding: BlockItemBinding) :
     RecyclerView.ViewHolder(viewDataBinding.root) {
+    val blockHeight: TextView = viewDataBinding.blockHeight
+    val txCount: TextView = viewDataBinding.txCount
+    val proposer: TextView = viewDataBinding.proposer
     companion object {
         @LayoutRes
         val LAYOUT = R.layout.block_item

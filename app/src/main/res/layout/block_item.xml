@@ -18,76 +18,95 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         app:cardCornerRadius="0dp"
-        app:cardElevation="5dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp">
+        app:cardElevation="5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/left_well"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="8dp" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/right_well"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="8dp" />
-
-            <ImageView
-                android:id="@+id/play_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                app:layout_constraintStart_toStartOf="@+id/left_well"
-                app:layout_constraintEnd_toEndOf="parent"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_height"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:minHeight="100dp"
+                android:background="@color/background_grey"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:srcCompat="@drawable/ic_home_black_24dp" />
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Height"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/block_height"
+                    style="@style/TextAppearance.AppCompat.Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    app:layout_constraintTop_toBottomOf="@+id/title"
+                    tools:text="111111" />
+
+                <TextView
+                    android:id="@+id/tx_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/block_height"
+                    tools:text="tx: 100" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/title"
-                android:layout_width="0dp"
+                android:id="@+id/block_hash"
+                android:layout_width="0dip"
+                android:lines="1"
+                android:ellipsize="middle"
+                style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="16dp"
-                android:text="@{block.title}"
+                android:layout_marginTop="4dp"
+                android:text="@{block.hash.toUpperCase()}"
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
-                android:textColor="@color/text_black"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/right_well"
-                app:layout_constraintStart_toEndOf="@+id/play_icon"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/layout_height"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Video title" />
-
+                tools:text="Block hash" />
 
             <TextView
-                android:id="@+id/description"
-                android:layout_width="0dp"
+                android:id="@+id/proposer"
+                android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:text="@{block.shortDescription}"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
                 android:textAlignment="viewStart"
+                style="@style/TextAppearance.AppCompat.Small"
                 android:textAllCaps="false"
-                android:textColor="@color/text_light"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="@+id/right_well"
-                app:layout_constraintStart_toStartOf="@+id/left_well"
-                app:layout_constraintTop_toBottomOf="@+id/title"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="this is a video @android:string/fingerprint_icon_content_description" />
+                app:layout_constraintStart_toEndOf="@+id/layout_height"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/block_hash" />
 
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="@{block.displayTime}"
+                android:textAlignment="viewStart"
+                style="@style/TextAppearance.AppCompat.Small"
+                android:textAllCaps="false"
+                app:layout_constraintStart_toEndOf="@+id/layout_height"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/proposer" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

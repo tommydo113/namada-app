@@ -1,9 +1,11 @@
 package com.namada.app.ui.validator
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -15,6 +17,7 @@ import com.namada.app.R
 import com.namada.app.databinding.FragmentValidatorBinding
 import com.namada.app.databinding.ValidatorItemBinding
 import com.namada.app.domain.Validator
+import org.w3c.dom.Text
 
 class ValidatorFragment : Fragment() {
 
@@ -122,6 +125,11 @@ class ValidatorAdapter(val callback: ValidatorClick) : RecyclerView.Adapter<Vali
             it.validator = validators[position]
             it.validatorCallback = callback
         }
+        val item = validators[position]
+        holder.moniker.text = "${item.moniker} - Rank:${item.rank}"
+        holder.votingPower.text = item.tokens.toString()
+        holder.votingPowerPercent.text = item.votingPercentage.toString()
+        if(TextUtils.isEmpty(item.operatorAddress)) holder.address.visibility = View.GONE
     }
 
 }
@@ -131,6 +139,10 @@ class ValidatorAdapter(val callback: ValidatorClick) : RecyclerView.Adapter<Vali
  */
 class ValidatorViewHolder(val viewDataBinding: ValidatorItemBinding) :
     RecyclerView.ViewHolder(viewDataBinding.root) {
+    val moniker: TextView = viewDataBinding.moniker
+    val votingPower: TextView = viewDataBinding.votingPowerValue
+    val votingPowerPercent: TextView = viewDataBinding.votingPowerPercentValue
+    val address:TextView = viewDataBinding.address
     companion object {
         @LayoutRes
         val LAYOUT = R.layout.validator_item

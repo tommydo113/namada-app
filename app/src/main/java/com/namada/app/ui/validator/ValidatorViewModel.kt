@@ -29,7 +29,7 @@ class ValidatorViewModel(application: Application) : AndroidViewModel(applicatio
         _isRefreshing.postValue(true)
         uiScope.launch {
             try {
-                val validators = AppNetwork.appService.getValidatorList().currentValidatorsList.asValidatorModel()
+                val validators = AppNetwork.appService.getValidatorList().validators.asValidatorModel()
 //                println("validator $validators")
                 _isRefreshing.postValue(false)
                 _validators.postValue(validators)

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -122,6 +123,21 @@ class ProposalAdapter(val callback: ProposalClick) : RecyclerView.Adapter<Propos
             it.proposal = proposals[position]
             it.proposalCallback = callback
         }
+        val item = proposals[position]
+        holder.id.text = buildString {
+        append("")
+        append(item.id)
+    }
+        holder.startEnd.text = buildString {
+        append(item.startEpoch)
+        append(" / ")
+        append(item.endEpoch)
+    }
+        holder.yesNo.text = buildString {
+        append(item.yayVotes)
+        append(" / ")
+        append(item.nayVotes)
+    }
     }
 
 }
@@ -131,6 +147,9 @@ class ProposalAdapter(val callback: ProposalClick) : RecyclerView.Adapter<Propos
  */
 class ProposalViewHolder(val viewDataBinding: ProposalItemBinding) :
     RecyclerView.ViewHolder(viewDataBinding.root) {
+    val id:TextView = viewDataBinding.proposalId
+    val startEnd = viewDataBinding.startEndEpoch
+    val yesNo = viewDataBinding.yesNo
     companion object {
         @LayoutRes
         val LAYOUT = R.layout.proposal_item

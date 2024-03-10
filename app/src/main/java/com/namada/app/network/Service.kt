@@ -26,10 +26,10 @@ import retrofit2.http.GET
 
 
 interface AppService {
-    @GET("node/blocks/list/20")
+    @GET("api/blocks?count=20")
     suspend fun getBlocklist(): List<NetworkBlock>
 
-    @GET("node/validators/list")
+    @GET("api/validators")
     suspend fun getValidatorList(): NetworkValidatorContainer
 }
 
@@ -37,7 +37,7 @@ object AppNetwork {
 
     // Configure retrofit to parse JSON and use coroutines
     private val retrofit = Retrofit.Builder()
-            .baseUrl("https://namada-explorer-api.stakepool.dev.br/")
+            .baseUrl("https://namada.api.explorers.guru/")
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
 

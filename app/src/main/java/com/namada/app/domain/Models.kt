@@ -32,21 +32,21 @@ import com.namada.app.util.smartTruncate
 data class Block(val hash: String,
                  val time: String,
                  val proposerAddress: String,
+                 val proposerMoniker: String,
                  val height: Int,
-                 val txCount: String
+                 val txCount: Int
     ) {
 
     val displayTime: String
         get() = time
 }
-data class Validator(val address: String,
+data class Validator(val operatorAddress: String,
+                     val hexAddress: String,
                      val moniker: String,
-                     val operatorAddress: String,
-                     val votingPower: Long,
                      val votingPercentage: Double,
-                     val proposerPriority: String,
-                    val pubKeyType: String,
-                    val pubKeyValue : String
+                        val tokens: Long,
+    val cumulativeShare: Double,
+    val rank: Int
                     )
 
 

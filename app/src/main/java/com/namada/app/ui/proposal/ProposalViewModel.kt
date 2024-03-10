@@ -28,6 +28,7 @@ class ProposalViewModel(application: Application) : AndroidViewModel(application
         uiScope.launch {
             try {
                 val proposalList = AppNetwork2.appService.getProposalList().proposals.asProposalModel()
+                    .sortedByDescending { item -> item.id }
 //                println("proposalList $proposalList")
                 _isRefreshing.postValue(false)
                 _proposals.postValue(proposalList)

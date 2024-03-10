@@ -2,5 +2,6 @@
     <string name="app_name">Namada-App</string>
     <string name="title_blocks">Blocks</string>
     <string name="title_validator">Validators</string>
+    <string name="title_proposal">Proposals</string>
     <string name="title_notifications">Notifications</string>
 </resources>

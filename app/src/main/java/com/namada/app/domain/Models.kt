@@ -16,9 +16,7 @@
 
 package com.namada.app.domain
 
-import com.namada.app.network.PubKey
 import com.namada.app.util.smartTruncate
-import com.squareup.moshi.Json
 
 /**
  * Domain objects are plain Kotlin data classes that represent the things in our app. These are the
@@ -49,7 +47,21 @@ data class Validator(val address: String,
                      val votingPower: Long,
                      val votingPercentage: Double,
                      val proposerPriority: String,
-                        val pubKeyType: String,
-                        val pubKeyValue : String
+                    val pubKeyType: String,
+                    val pubKeyValue : String
                     )
 
+
+data class Proposal (
+    val id           : Int,
+    val content      : String,
+    val kind         : String,
+    val authorAddress       : String,
+    val startEpoch   : Int,
+    val endEpoch     : Int,
+    val graceEpoch   : Int,
+    val result       : String,
+    val yayVotes     : String,
+    val nayVotes     : String,
+    val abstainVotes : String
+)

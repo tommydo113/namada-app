@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_validator" />
 
     <fragment
+        android:id="@+id/navigation_proposal"
+        android:name="com.namada.app.ui.proposal.ProposalFragment"
+        android:label="@string/title_proposal"
+        tools:layout="@layout/fragment_proposal" />
+
+    <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.namada.app.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"

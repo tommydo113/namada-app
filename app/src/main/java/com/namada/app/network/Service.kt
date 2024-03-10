@@ -45,4 +45,18 @@ object AppNetwork {
 
 }
 
+interface AppService2 {
+    @GET("api/v1/chain/governance/proposals")
+    suspend fun getProposalList(): NetworkProposalContainer
+}
+object AppNetwork2 {
+    // Configure retrofit to parse JSON and use coroutines
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("https://it.api.namada.red/")
+        .addConverterFactory(MoshiConverterFactory.create())
+        .build()
+
+    val appService = retrofit.create(AppService2::class.java)
+}
+
 

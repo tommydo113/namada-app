@@ -1,4 +1,4 @@
-package com.namada.app.ui.validator
+package com.namada.app.ui.proposal
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,40 +11,40 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.namada.app.R
-import com.namada.app.databinding.FragmentValidatorBinding
-import com.namada.app.databinding.ValidatorItemBinding
-import com.namada.app.domain.Validator
+import com.namada.app.databinding.FragmentProposalBinding
+import com.namada.app.databinding.ProposalItemBinding
+import com.namada.app.domain.Proposal
 
-class ValidatorFragment : Fragment() {
+class ProposalFragment : Fragment() {
 
-    private var _binding: FragmentValidatorBinding? = null
+    private var _binding: FragmentProposalBinding? = null
 
     /**
      * One way to delay creation of the viewModel until an appropriate lifecycle method is to use
      * lazy. This requires that viewModel not be referenced before onActivityCreated, which we
      * do in this Fragment.
      */
-    private val viewModel: ValidatorViewModel by lazy {
+    private val viewModel: ProposalViewModel by lazy {
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onActivityCreated()"
         }
-        ViewModelProvider(this)[ValidatorViewModel::class.java]
+        ViewModelProvider(this)[ProposalViewModel::class.java]
     }
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
-    private var viewModelAdapter: ValidatorAdapter? = null
+    private var viewModelAdapter: ProposalAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentValidatorBinding.inflate(inflater, container, false)
+        _binding = FragmentProposalBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         val root: View = binding.root
-        viewModelAdapter = ValidatorAdapter(ValidatorClick {
-            println("click validator")
+        viewModelAdapter = ProposalAdapter(ProposalClick {
+            println("click Proposal")
         })
         root.findViewById<RecyclerView>(R.id.recycler_view).apply {
             layoutManager = LinearLayoutManager(context)
@@ -61,9 +61,9 @@ class ValidatorFragment : Fragment() {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.validators.observe(viewLifecycleOwner) { validators ->
-            validators?.apply {
-                viewModelAdapter?.validators = validators
+        viewModel.proposals.observe(viewLifecycleOwner) { proposals ->
+            proposals?.apply {
+                viewModelAdapter?.proposals = proposals
             }
         }
 
@@ -79,53 +79,53 @@ class ValidatorFragment : Fragment() {
  * Click listener for Blocks. By giving the block a name it helps a reader understand what it does.
  *
  */
-class ValidatorClick(val validator: (Validator) -> Unit) {
+class ProposalClick(val proposal: (Proposal) -> Unit) {
     /**
      * Called when a Block is clicked
      *
-     * @param validator the Block that was clicked
+     * @param Proposal the Block that was clicked
      */
-    fun onClick(validator: Validator) = validator(validator)
+    fun onClick(proposal: Proposal) = proposal(proposal)
 }
 
 /**
  * RecyclerView Adapter for setting up data binding on the items in the list.
  */
-class ValidatorAdapter(val callback: ValidatorClick) : RecyclerView.Adapter<ValidatorViewHolder>() {
+class ProposalAdapter(val callback: ProposalClick) : RecyclerView.Adapter<ProposalViewHolder>() {
 
-    var validators: List<Validator> = emptyList()
+    var proposals: List<Proposal> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
         }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ValidatorViewHolder {
-        val withDataBinding: ValidatorItemBinding = DataBindingUtil.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProposalViewHolder {
+        val withDataBinding: ProposalItemBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
-            ValidatorViewHolder.LAYOUT,
+            ProposalViewHolder.LAYOUT,
             parent,
             false
         )
-        return ValidatorViewHolder(withDataBinding)
+        return ProposalViewHolder(withDataBinding)
     }
 
-    override fun getItemCount()= validators.size
+    override fun getItemCount()= proposals.size
 
-    override fun onBindViewHolder(holder: ValidatorViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ProposalViewHolder, position: Int) {
         holder.viewDataBinding.also {
-            it.validator = validators[position]
-            it.validatorCallback = callback
+            it.proposal = proposals[position]
+            it.proposalCallback = callback
         }
     }
 
 }
 
 /**
- * ViewHolder for Validator items. All work is done by data binding.
+ * ViewHolder for Proposal items. All work is done by data binding.
  */
-class ValidatorViewHolder(val viewDataBinding: ValidatorItemBinding) :
+class ProposalViewHolder(val viewDataBinding: ProposalItemBinding) :
     RecyclerView.ViewHolder(viewDataBinding.root) {
     companion object {
         @LayoutRes
-        val LAYOUT = R.layout.validator_item
+        val LAYOUT = R.layout.proposal_item
     }
 }

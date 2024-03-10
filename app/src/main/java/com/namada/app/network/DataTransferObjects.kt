@@ -17,6 +17,7 @@
 package com.namada.app.network
 
 import com.namada.app.domain.Block
+import com.namada.app.domain.Proposal
 import com.namada.app.domain.Validator
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -43,6 +44,9 @@ data class NetworkBlockContainer(val blocks: List<NetworkBlock>)
 
 @JsonClass(generateAdapter = true)
 data class NetworkValidatorContainer(val currentValidatorsList: List<NetworkValidator>)
+
+@JsonClass(generateAdapter = true)
+data class NetworkProposalContainer(val proposals: List<NetworkProposal>)
 
 /**
  * Block represent a block on the network.
@@ -130,7 +134,6 @@ fun List<NetworkValidator>.asValidatorModel(): List<Validator>{
     }
 }
 
-
 @JsonClass(generateAdapter = true)
 data class PubKey (
     @Json(name="type"  ) var type  : String? = null,
@@ -148,6 +151,45 @@ data class NetworkValidator (
     @Json(name="operator_address"  ) var operatorAddress  : String? = null
 
 )
+fun List<NetworkProposal>.asProposalModel(): List<Proposal>{
+    return map {
+        Proposal(
+            id = it.id ?: 0,
+            content = it.content?: "",
+            kind = it.kind ?: "",
+            authorAddress = it.author?.account ?: "",
+            startEpoch = it.startEpoch ?: 0,
+            endEpoch =  it.endEpoch ?: 0,
+            graceEpoch = it.graceEpoch ?: 0,
+            result = it.result?: "",
+            yayVotes = it.yayVotes?: "",
+            nayVotes = it.nayVotes?: "",
+            abstainVotes = it.abstainVotes?: ""
+        )
+    }
+}
+@JsonClass(generateAdapter = true)
+data class NetworkProposal (
+
+    @Json(name="id"            ) var id           : Int?    = null,
+    @Json(name="content"       ) var content      : String? = null,
+    @Json(name="kind"          ) var kind         : String? = null,
+    @Json(name="author"        ) var author       : Author? = Author(),
+    @Json(name="start_epoch"   ) var startEpoch   : Int?    = null,
+    @Json(name="end_epoch"     ) var endEpoch     : Int?    = null,
+    @Json(name="grace_epoch"   ) var graceEpoch   : Int?    = null,
+    @Json(name="result"        ) var result       : String? = null,
+    @Json(name="yay_votes"     ) var yayVotes     : String? = null,
+    @Json(name="nay_votes"     ) var nayVotes     : String? = null,
+    @Json(name="abstain_votes" ) var abstainVotes : String? = null
+
+)
+
+@JsonClass(generateAdapter = true)
+data class Author (
+    @Json(name="Account" ) var account : String? = null
+)
+
 /**
  *     {
  *             "address": "2C8300C6D4EE7F9641963DF7B7F53391CC172CB0",

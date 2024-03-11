@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="transaction"
+            type="com.namada.app.domain.Transaction" />
+
+        <variable
+            name="transactionCallback"
+            type="com.namada.app.ui.tx.TransactionClick" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:onClick="@{() -> transactionCallback.onClick(transaction)}"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="5dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tx_hash"
+            android:text="@{transaction.hash}"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tx_gas"
+                android:text="Gas: "
+                app:layout_constraintTop_toBottomOf="@+id/tx_hash"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tx_gas_used"
+                app:layout_constraintTop_toBottomOf="@+id/tx_hash"
+                app:layout_constraintStart_toEndOf="@+id/tx_gas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                app:layout_constraintTop_toBottomOf="@+id/tx_hash"
+                android:layout_width="wrap_content"
+                android:text="Height: "
+                app:layout_constraintEnd_toStartOf="@id/block_height"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/block_height"
+                app:layout_constraintTop_toBottomOf="@+id/tx_hash"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

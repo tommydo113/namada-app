@@ -64,3 +64,20 @@ data class Proposal (
     val nayVotes     : String,
     val abstainVotes : String
 )
+
+data class Transaction (
+    val hash: String,
+    val status: Int,
+    val height: Int,
+    val gasWanted: Int,
+    val gasUsed: Int
+)
+/**
+ *  {
+ *         "hash": "8C265342AF9589F483B68CE1F34030EC8B1AEF5CBFEDE4A8F20A848132F71D92",
+ *         "status": 0,
+ *         "height": 103239,
+ *         "gasWanted": 0,
+ *         "gasUsed": 0
+ *     }
+ */

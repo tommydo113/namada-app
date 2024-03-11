@@ -28,10 +28,10 @@
         tools:layout="@layout/fragment_proposal" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.namada.app.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_transaction"
+        android:name="com.namada.app.ui.tx.TxsFragment"
+        android:label="@string/transactions"
+        tools:layout="@layout/fragment_transactions" />
 
     <fragment
         android:id="@+id/navigation_block_detail"

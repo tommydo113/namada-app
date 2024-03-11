@@ -18,7 +18,6 @@ import com.namada.app.databinding.FragmentValidatorBinding
 import com.namada.app.databinding.ValidatorItemBinding
 import com.namada.app.domain.Validator
 import com.namada.app.util.setActionBarTitle
-import org.w3c.dom.Text
 
 class ValidatorFragment : Fragment() {
 

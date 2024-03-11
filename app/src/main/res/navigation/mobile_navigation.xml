@@ -9,7 +9,11 @@
         android:id="@+id/navigation_home"
         android:name="com.namada.app.ui.home.HomeFragment"
         android:label="@string/title_blocks"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_block_detail"
+            app:destination="@id/navigation_block_detail" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_validator"
@@ -28,4 +32,14 @@
         android:name="com.namada.app.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_block_detail"
+        android:name="com.namada.app.ui.block.BlockDetailFragment"
+        android:label="@string/title_block"
+        tools:layout="@layout/fragment_block_detail" >
+        <argument
+            android:name="block"
+            app:argType="com.namada.app.domain.Block" />
+    </fragment>
 </navigation>

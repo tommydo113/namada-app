@@ -4,5 +4,8 @@ plugins {
     id("org.jetbrains.kotlin.android") version "1.9.0" apply false
     id("com.google.devtools.ksp") version "1.8.10-1.0.9" apply false
 //    id("com.google.devtools.ksp").version("1.6.10-1.0.4") // Or latest version of KSP
+    val nav_version = "2.7.7"
+    id("androidx.navigation.safeargs") version "2.5.0" apply false
+
 
 }

@@ -17,6 +17,7 @@
 package com.namada.app.domain
 
 import com.namada.app.util.smartTruncate
+import java.io.Serializable
 
 /**
  * Domain objects are plain Kotlin data classes that represent the things in our app. These are the
@@ -35,7 +36,7 @@ data class Block(val hash: String,
                  val proposerMoniker: String,
                  val height: Int,
                  val txCount: Int
-    ) {
+    ) : Serializable{
 
     val displayTime: String
         get() = time

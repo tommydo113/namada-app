@@ -17,6 +17,7 @@ import com.namada.app.R
 import com.namada.app.databinding.FragmentValidatorBinding
 import com.namada.app.databinding.ValidatorItemBinding
 import com.namada.app.domain.Validator
+import com.namada.app.util.setActionBarTitle
 import org.w3c.dom.Text
 
 class ValidatorFragment : Fragment() {
@@ -72,6 +73,10 @@ class ValidatorFragment : Fragment() {
         viewModel.validators.observe(viewLifecycleOwner) { validators ->
             validators?.apply {
                 viewModelAdapter?.validators = validators
+                setActionBarTitle(buildString {
+                    append("Validators: ")
+                        .append(validators.size)
+                })
             }
         }
         viewModel.isRefreshing.observe(viewLifecycleOwner){ isRefreshing ->

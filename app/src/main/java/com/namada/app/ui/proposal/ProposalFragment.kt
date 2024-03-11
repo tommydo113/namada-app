@@ -16,6 +16,7 @@ import com.namada.app.R
 import com.namada.app.databinding.FragmentProposalBinding
 import com.namada.app.databinding.ProposalItemBinding
 import com.namada.app.domain.Proposal
+import com.namada.app.util.setActionBarTitle
 
 class ProposalFragment : Fragment() {
 
@@ -70,6 +71,10 @@ class ProposalFragment : Fragment() {
         viewModel.proposals.observe(viewLifecycleOwner) { proposals ->
             proposals?.apply {
                 viewModelAdapter?.proposals = proposals
+                setActionBarTitle(buildString {
+                    append("Proposals: ")
+                        .append(proposals[0].id)
+                })
             }
         }
         viewModel.isRefreshing.observe(viewLifecycleOwner){ isRefreshing ->

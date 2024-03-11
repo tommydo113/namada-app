@@ -9,6 +9,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -16,6 +17,7 @@ import com.namada.app.R
 import com.namada.app.databinding.BlockItemBinding
 import com.namada.app.databinding.FragmentHomeBinding
 import com.namada.app.domain.Block
+import com.namada.app.util.setActionBarTitle
 
 class HomeFragment : Fragment() {
 
@@ -57,7 +59,8 @@ class HomeFragment : Fragment() {
             // context is not around, we can safely discard this click since the Fragment is no
             // longer on the screen
             println("click")
-
+            findNavController().navigate(
+            HomeFragmentDirections.actionNavigationHomeToNavigationBlockDetail(it))
         })
         root.findViewById<RecyclerView>(R.id.recycler_view).apply {
             layoutManager = LinearLayoutManager(context)
@@ -81,6 +84,10 @@ class HomeFragment : Fragment() {
         viewModel.blocks.observe(viewLifecycleOwner) { blocks ->
             blocks?.apply {
                 viewModelAdapter?.blocks = blocks
+                setActionBarTitle(buildString {
+                    append("Latest Block: ")
+                        .append(blocks[0].height)
+                })
             }
         }
         viewModel.isRefreshing.observe(viewLifecycleOwner){ isRefreshing ->

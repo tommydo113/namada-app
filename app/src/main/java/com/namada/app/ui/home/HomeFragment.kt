@@ -161,7 +161,7 @@ class BlockAdapter(val callback: BlockClick) : RecyclerView.Adapter<BlockViewHol
         val item = blocks[position]
         holder.blockHeight.text = ""+ item.height
         holder.txCount.text = "Tx: "+ item.txCount
-        holder.proposer.text = "Proposer: "+ item.proposerAddress
+        holder.proposer.text = "Proposer: "+ item.proposerMoniker
     }
 
     fun clear() {

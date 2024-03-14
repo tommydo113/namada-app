@@ -5,7 +5,10 @@
         android:id="@+id/navigation_home"
         android:icon="@drawable/cube_scan"
         android:title="@string/title_blocks" />
-
+    <item
+        android:id="@+id/navigation_transaction"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="@string/transactions" />
     <item
         android:id="@+id/navigation_validator"
         android:icon="@drawable/account_group"
@@ -16,9 +19,6 @@
         android:icon="@drawable/vote_outline"
         android:title="@string/title_proposal"/>
 
-    <item
-        android:id="@+id/navigation_transaction"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/transactions" />
+
 
 </menu>

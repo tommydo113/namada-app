@@ -19,6 +19,8 @@ package com.namada.app.network
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 // Since we only have one service, this can all go in one file.
 // If you add more services, split this to multiple files and make sure to share the retrofit
@@ -31,6 +33,12 @@ interface AppService {
 
     @GET("api/validators")
     suspend fun getValidatorList(): NetworkValidatorContainer
+
+    @GET("api/transactions")
+    suspend fun getTransaction(@Query("count") count: Int): List<NetworkTransaction>
+
+    @GET("api/blocks/{height}/txs")
+    suspend fun getTransactionsOfBlock(@Path("height")height: Int): List<NetworkTransaction>
 }
 
 object AppNetwork {

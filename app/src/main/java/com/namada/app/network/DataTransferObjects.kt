@@ -18,6 +18,7 @@ package com.namada.app.network
 
 import com.namada.app.domain.Block
 import com.namada.app.domain.Proposal
+import com.namada.app.domain.Transaction
 import com.namada.app.domain.Validator
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -161,6 +162,24 @@ data class NetworkProposal (
 data class Author (
     @Json(name="Account" ) var account : String? = null
 )
+@JsonClass(generateAdapter = true)
+data class NetworkTransaction (
+    val hash: String?,
+    val status: Int?,
+    val height: Int?,
+    val gasWanted: Int?,
+    val gasUsed: Int?
+)
+
+fun List<NetworkTransaction>.asTransactionModel(): List<Transaction>{
+    return map { Transaction(
+        hash = it.hash ?: "",
+        status =  it.status ?: 0,
+        height = it.height ?: 0,
+        gasWanted =  it.gasWanted ?: 0,
+        gasUsed =  it.gasUsed ?: 0
+    ) }
+}
 
 /**
  *     {

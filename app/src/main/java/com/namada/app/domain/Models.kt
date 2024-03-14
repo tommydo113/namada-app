@@ -16,6 +16,7 @@
 
 package com.namada.app.domain
 
+import com.namada.app.util.formatTime
 import com.namada.app.util.smartTruncate
 import java.io.Serializable
 
@@ -39,7 +40,7 @@ data class Block(val hash: String,
     ) : Serializable{
 
     val displayTime: String
-        get() = time
+        get() = formatTime(time)
 }
 data class Validator(val operatorAddress: String,
                      val hexAddress: String,

@@ -29,6 +29,7 @@
         <TextView
             android:id="@+id/tx_hash"
             android:text="@{transaction.hash}"
+            style="@style/MediumTextView"
             android:layout_width="match_parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_height="wrap_content"/>

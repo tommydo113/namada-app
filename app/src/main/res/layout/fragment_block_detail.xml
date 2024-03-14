@@ -52,11 +52,12 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="Height"
+                            style="@style/TextAppearance.AppCompat.Small"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:id="@+id/block_height"
-                            style="@style/TextAppearance.AppCompat.Large"
+                            style="@style/LargeTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -69,7 +70,7 @@
 
                     <TextView
                         android:id="@+id/block_hash"
-                        style="@style/TextAppearance.AppCompat.Medium"
+                        style="@style/MediumTextView"
                         android:layout_width="0dip"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
@@ -85,13 +86,13 @@
 
                     <TextView
                         android:id="@+id/proposer"
-                        style="@style/TextAppearance.AppCompat.Small"
                         android:layout_width="0dip"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:layout_marginBottom="4dp"
                         android:textAlignment="viewStart"
                         android:textAllCaps="false"
+                        style="@style/MediumTextView"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/layout_height"
                         app:layout_constraintTop_toBottomOf="@+id/block_hash" />
@@ -114,10 +115,10 @@
 
             <TextView
                 android:id="@+id/tx_count"
-                style="@style/TextAppearance.AppCompat.Small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                style="@style/MediumTextView"
                 android:text="tx: 100"
                 app:layout_constraintTop_toBottomOf="@+id/cardview" />
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,7 +32,7 @@
                 android:id="@+id/layout_height"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:minHeight="60dp"
+                android:minHeight="90dp"
                 android:background="@color/background_grey"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -48,7 +48,7 @@
 
                 <TextView
                     android:id="@+id/block_height"
-                    style="@style/TextAppearance.AppCompat.Large"
+                    style="@style/LargeTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -69,7 +69,7 @@
             <TextView
                 android:id="@+id/block_hash"
                 android:layout_width="0dip"
-                style="@style/TextAppearance.AppCompat.Medium"
+                style="@style/MediumTextView"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="4dp"

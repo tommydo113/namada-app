@@ -16,6 +16,11 @@
 
 package com.namada.app.util
 
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
+
 private val PUNCTUATION = listOf(", ", "; ", ": ", " ")
 
 /**
@@ -46,4 +51,13 @@ fun String.smartTruncate(length: Int): String {
         builder.append("...")
     }
     return builder.toString()
+}
+
+fun formatTime(stringTime: String): String {
+    val isoFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US)
+    isoFormat.timeZone = TimeZone.getTimeZone("UTC")
+    val date = isoFormat.parse(stringTime)
+    val f = SimpleDateFormat("HH:mm:ss", Locale.US)
+    return date?.let { f.format(it) } ?: "00:00"
+
 }

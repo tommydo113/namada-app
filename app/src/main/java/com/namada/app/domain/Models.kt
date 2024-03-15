@@ -61,9 +61,9 @@ data class Proposal (
     val endEpoch     : Int,
     val graceEpoch   : Int,
     val result       : String,
-    val yayVotes     : String,
-    val nayVotes     : String,
-    val abstainVotes : String
+    val yayVotes     : Long,
+    val nayVotes     : Long,
+    val abstainVotes : Long
 )
 
 data class Transaction (

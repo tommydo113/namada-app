@@ -7,7 +7,7 @@
         android:title="@string/title_blocks" />
     <item
         android:id="@+id/navigation_transaction"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/clipboard_text_clock"
         android:title="@string/transactions" />
     <item
         android:id="@+id/navigation_validator"

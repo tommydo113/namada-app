@@ -135,9 +135,9 @@ fun List<NetworkProposal>.asProposalModel(): List<Proposal>{
             endEpoch =  it.endEpoch ?: 0,
             graceEpoch = it.graceEpoch ?: 0,
             result = it.result?: "",
-            yayVotes = it.yayVotes?: "",
-            nayVotes = it.nayVotes?: "",
-            abstainVotes = it.abstainVotes?: ""
+            yayVotes = (it.yayVotes?: "0").toLong(),
+            nayVotes = (it.nayVotes?: "0").toLong(),
+            abstainVotes = (it.abstainVotes?: "0").toLong()
         )
     }
 }

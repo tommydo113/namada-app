@@ -1,6 +1,7 @@
 package com.namada.app.ui.proposal
 
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ class ProposalFragment : Fragment() {
 
     private var _binding: FragmentProposalBinding? = null
     private lateinit var swipeContainer: SwipeRefreshLayout
+    private var screenWidth = 1
     /**
      * One way to delay creation of the viewModel until an appropriate lifecycle method is to use
      * lazy. This requires that viewModel not be referenced before onActivityCreated, which we
@@ -46,7 +48,9 @@ class ProposalFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         val root: View = binding.root
-        viewModelAdapter = ProposalAdapter(ProposalClick {
+        getWindowWidth()
+
+        viewModelAdapter = ProposalAdapter(screenWidth, ProposalClick {
             println("click Proposal")
         })
         root.findViewById<RecyclerView>(R.id.recycler_view).apply {
@@ -58,6 +62,20 @@ class ProposalFragment : Fragment() {
             viewModel.refresh()
         }
         return root
+    }
+
+    private fun getWindowWidth() {
+        // initializing variable for display metrics.
+        val displayMetrics = DisplayMetrics()
+
+        // on below line we are getting metrics
+        // for display using window manager.
+        activity?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
+
+        // on below line we are getting height
+        // and width using display metrics.
+        val height = displayMetrics.heightPixels
+        screenWidth = displayMetrics.widthPixels
     }
 
     /**
@@ -104,7 +122,7 @@ class ProposalClick(val proposal: (Proposal) -> Unit) {
 /**
  * RecyclerView Adapter for setting up data binding on the items in the list.
  */
-class ProposalAdapter(val callback: ProposalClick) : RecyclerView.Adapter<ProposalViewHolder>() {
+class ProposalAdapter(val screenWidth: Int, val callback: ProposalClick) : RecyclerView.Adapter<ProposalViewHolder>() {
 
     var proposals: List<Proposal> = emptyList()
         set(value) {
@@ -130,19 +148,26 @@ class ProposalAdapter(val callback: ProposalClick) : RecyclerView.Adapter<Propos
         }
         val item = proposals[position]
         holder.id.text = buildString {
-        append("")
-        append(item.id)
-    }
+            append("")
+            append(item.id)
+         }
         holder.startEnd.text = buildString {
-        append(item.startEpoch)
-        append(" / ")
-        append(item.endEpoch)
-    }
+            append(item.startEpoch)
+            append(" / ")
+            append(item.endEpoch)
+        }
         holder.yesNo.text = buildString {
-        append(item.yayVotes)
-        append(" / ")
-        append(item.nayVotes)
-    }
+            append(item.yayVotes)
+            append(" / ")
+            append(item.nayVotes)
+        }
+        val totalVote = item.yayVotes + item.nayVotes + item.abstainVotes
+        if(totalVote > 0){
+            holder.voteLayout.visibility = View.VISIBLE
+            holder.yesTv.layoutParams.width = ((item.yayVotes * screenWidth)/totalVote).toInt()
+            holder.noTv.layoutParams.width = ((item.nayVotes *  screenWidth)/totalVote).toInt()
+            holder.abstainTv.layoutParams.width = ((item.abstainVotes *  screenWidth)/totalVote).toInt()
+        }
     }
 
 }
@@ -155,6 +180,10 @@ class ProposalViewHolder(val viewDataBinding: ProposalItemBinding) :
     val id:TextView = viewDataBinding.proposalId
     val startEnd = viewDataBinding.startEndEpoch
     val yesNo = viewDataBinding.yesNo
+    val yesTv = viewDataBinding.yesTv
+    val noTv = viewDataBinding.noTv
+    val abstainTv = viewDataBinding.abstainTv
+    val voteLayout = viewDataBinding.voteResultLayout
     companion object {
         @LayoutRes
         val LAYOUT = R.layout.proposal_item

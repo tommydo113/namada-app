@@ -103,6 +103,36 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/vote_result_layout"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/yes_tv"
+                    android:layout_width="wrap_content"
+                    android:background="@color/yes_color"
+                    android:text="Yes"
+                    android:lines="1"
+                    android:textColor="@color/namada_color"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/no_tv"
+                    android:layout_width="wrap_content"
+                    android:background="@color/no_color"
+                    android:text="No"
+                    android:lines="1"
+                    android:textColor="@color/white"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/abstain_tv"
+                    android:layout_width="wrap_content"
+                    android:background="@color/abs_color"
+                    android:lines="1"
+                    android:text="Ab."
+                    android:textColor="@color/white"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>

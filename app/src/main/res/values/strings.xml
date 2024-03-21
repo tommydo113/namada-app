@@ -8,4 +8,5 @@
     <string name="transactions">Transactions</string>
     <string name="transaction">transaction</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_validator_hint">search validators by moniker, address</string>
 </resources>

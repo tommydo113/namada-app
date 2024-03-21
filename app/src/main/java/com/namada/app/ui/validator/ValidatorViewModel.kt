@@ -20,6 +20,7 @@ class ValidatorViewModel(application: Application) : AndroidViewModel(applicatio
     private val _validators = MutableLiveData<List<Validator>>()
     val validators: LiveData<List<Validator>> = _validators
     private val _isRefreshing = MutableLiveData<Boolean>()
+    private var allValidators: List<Validator> = emptyList()
     val isRefreshing: LiveData<Boolean> = _isRefreshing
     init {
         getValidatorsFromApi()
@@ -29,10 +30,10 @@ class ValidatorViewModel(application: Application) : AndroidViewModel(applicatio
         _isRefreshing.postValue(true)
         uiScope.launch {
             try {
-                val validators = AppNetwork.appService.getValidatorList().validators.asValidatorModel()
+                allValidators = AppNetwork.appService.getValidatorList().validators.asValidatorModel()
 //                println("validator $validators")
                 _isRefreshing.postValue(false)
-                _validators.postValue(validators)
+                _validators.postValue(allValidators)
             }catch (e: Exception){
                 e.printStackTrace()
                 _isRefreshing.postValue(false)
@@ -45,5 +46,15 @@ class ValidatorViewModel(application: Application) : AndroidViewModel(applicatio
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+    }
+
+    fun search(inputQuery: String) {
+        val query = inputQuery.toLowerCase()
+        val filterResult = allValidators.filter { validator ->
+            validator.moniker.contains(query)
+                    || validator.operatorAddress.contains(query)
+                    || validator.hexAddress.contains(query)
+        }.toTypedArray().toList()
+        _validators.postValue(filterResult)
     }
 }

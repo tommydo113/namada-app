@@ -2,9 +2,11 @@ package com.namada.app.ui.validator
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
@@ -17,6 +19,7 @@ import com.namada.app.R
 import com.namada.app.databinding.FragmentValidatorBinding
 import com.namada.app.databinding.ValidatorItemBinding
 import com.namada.app.domain.Validator
+import com.namada.app.util.dismissKeyboard
 import com.namada.app.util.setActionBarTitle
 
 class ValidatorFragment : Fragment() {
@@ -81,6 +84,32 @@ class ValidatorFragment : Fragment() {
         viewModel.isRefreshing.observe(viewLifecycleOwner){ isRefreshing ->
             swipeContainer.isRefreshing = isRefreshing
         }
+        initSearchInputListener()
+    }
+    private fun initSearchInputListener() {
+        binding.input.setOnEditorActionListener { view: View, actionId: Int, _: KeyEvent? ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                doSearch(view)
+                true
+            } else {
+                false
+            }
+        }
+        binding.input.setOnKeyListener { view: View, keyCode: Int, event: KeyEvent ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                doSearch(view)
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private fun doSearch(v: View) {
+        val query = binding.input.text.toString()
+        // Dismiss keyboard
+        dismissKeyboard(activity, v.windowToken)
+        viewModel.search(query)
     }
 
     override fun onDestroyView() {

@@ -26,7 +26,7 @@ class TxsViewModel : ViewModel() {
         _isRefreshing.postValue(true)
         uiScope.launch {
             try {
-                val transactions = AppNetwork.appService.getTransaction(40).asTransactionModel()
+                val transactions = AppNetwork.appService.getTransaction(10).asTransactionModel()
                 _isRefreshing.postValue(false)
                 println("transactions: $transactions")
                 _transaction.postValue(transactions)

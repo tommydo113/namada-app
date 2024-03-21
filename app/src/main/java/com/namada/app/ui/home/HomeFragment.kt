@@ -1,9 +1,11 @@
 package com.namada.app.ui.home
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
@@ -23,6 +25,7 @@ import com.namada.app.util.setActionBarTitle
 
 class HomeFragment : Fragment() {
 
+    private var progressDialog: ProgressDialog? = null
     private var _binding: FragmentHomeBinding? = null
     private lateinit var swipeContainer: SwipeRefreshLayout
     /**
@@ -36,6 +39,7 @@ class HomeFragment : Fragment() {
         }
         ViewModelProvider(this)[HomeViewModel::class.java]
     }
+
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private var viewModelAdapter: BlockAdapter? = null
@@ -55,19 +59,20 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         val root: View = binding.root
-
         viewModelAdapter = BlockAdapter(BlockClick {
 
             // context is not around, we can safely discard this click since the Fragment is no
             // longer on the screen
             println("click")
             findNavController().navigate(
-            HomeFragmentDirections.actionNavigationHomeToNavigationBlockDetail(it))
+                HomeFragmentDirections.actionNavigationHomeToNavigationBlockDetail(it)
+            )
         })
         root.findViewById<RecyclerView>(R.id.recycler_view).apply {
             layoutManager = LinearLayoutManager(context)
             adapter = viewModelAdapter
-            addOnScrollListener(object : EndlessRecyclerViewScrollListener(layoutManager as LinearLayoutManager) {
+            addOnScrollListener(object :
+                EndlessRecyclerViewScrollListener(layoutManager as LinearLayoutManager) {
                 override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                     // Triggered only when new data needs to be appended to the list
                     // Add whatever code is needed to append new items to the bottom of the list
@@ -91,6 +96,10 @@ class HomeFragment : Fragment() {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        progressDialog = ProgressDialog(requireContext())
+        progressDialog?.setCancelable(false)
+        progressDialog?.setMessage("Loading data, please wait for a moment")
+        progressDialog?.show()
         viewModel.blocks.observe(viewLifecycleOwner) { blocks ->
             blocks?.apply {
                 viewModelAdapter?.blocks = blocks
@@ -99,8 +108,9 @@ class HomeFragment : Fragment() {
                         .append(blocks[0].height)
                 })
             }
+            progressDialog?.dismiss()
         }
-        viewModel.isRefreshing.observe(viewLifecycleOwner){ isRefreshing ->
+        viewModel.isRefreshing.observe(viewLifecycleOwner) { isRefreshing ->
             swipeContainer.isRefreshing = isRefreshing
         }
     }
@@ -152,7 +162,8 @@ class BlockAdapter(val callback: BlockClick) : RecyclerView.Adapter<BlockViewHol
             LayoutInflater.from(parent.context),
             BlockViewHolder.LAYOUT,
             parent,
-            false)
+            false
+        )
         return BlockViewHolder(withDataBinding)
     }
 
@@ -169,9 +180,9 @@ class BlockAdapter(val callback: BlockClick) : RecyclerView.Adapter<BlockViewHol
             it.blockCallback = callback
         }
         val item = blocks[position]
-        holder.blockHeight.text = ""+ item.height
-        holder.txCount.text = "Tx: "+ item.txCount
-        holder.proposer.text = "Proposer: "+ item.proposerMoniker
+        holder.blockHeight.text = "" + item.height
+        holder.txCount.text = "Tx: " + item.txCount
+        holder.proposer.text = "Proposer: " + item.proposerMoniker
     }
 
     fun clear() {
@@ -180,6 +191,7 @@ class BlockAdapter(val callback: BlockClick) : RecyclerView.Adapter<BlockViewHol
     }
 
 }
+
 /**
  * ViewHolder for Block items. All work is done by data binding.
  */
@@ -188,6 +200,7 @@ class BlockViewHolder(val viewDataBinding: BlockItemBinding) :
     val blockHeight: TextView = viewDataBinding.blockHeight
     val txCount: TextView = viewDataBinding.txCount
     val proposer: TextView = viewDataBinding.proposer
+
     companion object {
         @LayoutRes
         val LAYOUT = R.layout.block_item

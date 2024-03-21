@@ -1,5 +1,6 @@
 package com.namada.app.ui.tx
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,7 @@ import com.namada.app.util.setActionBarTitle
 
 class TxsFragment : Fragment() {
 
+    private lateinit var progressDialog: ProgressDialog
     private var _binding: FragmentTransactionsBinding? = null
     private val binding get() = _binding!!
     private lateinit var swipeContainer: SwipeRefreshLayout
@@ -76,6 +78,10 @@ class TxsFragment : Fragment() {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        progressDialog = ProgressDialog(requireContext())
+        progressDialog.setCancelable(false)
+        progressDialog?.setMessage("Loading data, please wait for a moment")
+        progressDialog?.show()
         viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
             transactions?.apply {
                 viewModelAdapter?.transactions = transactions
@@ -83,6 +89,7 @@ class TxsFragment : Fragment() {
                     append("Last Transactions")
                 })
             }
+            progressDialog?.dismiss()
         }
         viewModel.isRefreshing.observe(viewLifecycleOwner){ isRefreshing ->
             swipeContainer.isRefreshing = isRefreshing

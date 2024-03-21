@@ -1,5 +1,6 @@
 package com.namada.app.ui.proposal
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
@@ -27,6 +28,7 @@ class ProposalFragment : Fragment() , AdapterView.OnItemSelectedListener{
     private var _binding: FragmentProposalBinding? = null
     private lateinit var swipeContainer: SwipeRefreshLayout
     private var screenWidth = 1
+    private var progressDialog: ProgressDialog? = null
     /**
      * One way to delay creation of the viewModel until an appropriate lifecycle method is to use
      * lazy. This requires that viewModel not be referenced before onActivityCreated, which we
@@ -144,6 +146,10 @@ class ProposalFragment : Fragment() , AdapterView.OnItemSelectedListener{
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        progressDialog = ProgressDialog(requireContext())
+        progressDialog?.setCancelable(false)
+        progressDialog?.setMessage("Loading data, please wait for a moment")
+        progressDialog?.show()
         viewModel.proposals.observe(viewLifecycleOwner) { proposals ->
             proposals?.apply {
                 viewModelAdapter?.proposals = proposals
@@ -152,6 +158,7 @@ class ProposalFragment : Fragment() , AdapterView.OnItemSelectedListener{
 //                        .append(proposals[0].id)
 //                })
             }
+            progressDialog?.dismiss()
         }
         viewModel.isRefreshing.observe(viewLifecycleOwner){ isRefreshing ->
             swipeContainer.isRefreshing = isRefreshing

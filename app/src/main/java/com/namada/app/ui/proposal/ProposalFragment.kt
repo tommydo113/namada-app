@@ -5,6 +5,9 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
@@ -19,7 +22,7 @@ import com.namada.app.databinding.ProposalItemBinding
 import com.namada.app.domain.Proposal
 import com.namada.app.util.setActionBarTitle
 
-class ProposalFragment : Fragment() {
+class ProposalFragment : Fragment() , AdapterView.OnItemSelectedListener{
 
     private var _binding: FragmentProposalBinding? = null
     private lateinit var swipeContainer: SwipeRefreshLayout
@@ -48,6 +51,8 @@ class ProposalFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         val root: View = binding.root
+        setupStatusSpinner(root)
+        setupKindSpinner(root)
         getWindowWidth()
 
         viewModelAdapter = ProposalAdapter(screenWidth, ProposalClick {
@@ -64,6 +69,48 @@ class ProposalFragment : Fragment() {
         return root
     }
 
+    private fun setupStatusSpinner(root: View) {
+        val spinner: Spinner = root.findViewById(R.id.spinner)
+        // Create an ArrayAdapter using the string array and a default spinner layout.
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.proposal_status,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears.
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner.
+            spinner.adapter = adapter
+        }
+        spinner.onItemSelectedListener = this
+    }
+
+    private fun setupKindSpinner(root: View){
+        val kindSpinner: Spinner = root.findViewById(R.id.kind_spinner)
+        // Create an ArrayAdapter using the string array and a default spinner layout.
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.proposal_kind,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears.
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner.
+            kindSpinner.adapter = adapter
+        }
+        kindSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+                val item = parent.getItemAtPosition(pos)
+                println("item $item")
+                viewModel.onKindSelected(item as String)
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+
+        }
+    }
+
     private fun getWindowWidth() {
         // initializing variable for display metrics.
         val displayMetrics = DisplayMetrics()
@@ -78,6 +125,17 @@ class ProposalFragment : Fragment() {
         screenWidth = displayMetrics.widthPixels
     }
 
+    override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+        // An item is selected. You can retrieve the selected item using
+        val item = parent.getItemAtPosition(pos)
+        println("item $item")
+        viewModel.onStatusSelected(item as String)
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>) {
+        // Another interface callback.
+    }
+
     /**
      * Called immediately after onCreateView() has returned, and fragment's
      * view hierarchy has been created. It can be used to do final
@@ -89,10 +147,10 @@ class ProposalFragment : Fragment() {
         viewModel.proposals.observe(viewLifecycleOwner) { proposals ->
             proposals?.apply {
                 viewModelAdapter?.proposals = proposals
-                setActionBarTitle(buildString {
-                    append("Proposals: ")
-                        .append(proposals[0].id)
-                })
+//                setActionBarTitle(buildString {
+//                    append("Proposals: ")
+//                        .append(proposals[0].id)
+//                })
             }
         }
         viewModel.isRefreshing.observe(viewLifecycleOwner){ isRefreshing ->
@@ -156,11 +214,6 @@ class ProposalAdapter(val screenWidth: Int, val callback: ProposalClick) : Recyc
             append(" / ")
             append(item.endEpoch)
         }
-        holder.yesNo.text = buildString {
-            append(item.yayVotes)
-            append(" / ")
-            append(item.nayVotes)
-        }
         val totalVote = item.yayVotes + item.nayVotes + item.abstainVotes
         if(totalVote > 0){
             holder.voteLayout.visibility = View.VISIBLE
@@ -179,7 +232,6 @@ class ProposalViewHolder(val viewDataBinding: ProposalItemBinding) :
     RecyclerView.ViewHolder(viewDataBinding.root) {
     val id:TextView = viewDataBinding.proposalId
     val startEnd = viewDataBinding.startEndEpoch
-    val yesNo = viewDataBinding.yesNo
     val yesTv = viewDataBinding.yesTv
     val noTv = viewDataBinding.noTv
     val abstainTv = viewDataBinding.abstainTv

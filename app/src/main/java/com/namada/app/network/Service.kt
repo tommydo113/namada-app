@@ -28,7 +28,7 @@ import retrofit2.http.Query
 
 
 interface AppService {
-    @GET("api/blocks?count=20")
+    @GET("api/blocks?count=40")
     suspend fun getBlocklist(): List<NetworkBlock>
 
     @GET("api/validators")
@@ -39,6 +39,9 @@ interface AppService {
 
     @GET("api/blocks/{height}/txs")
     suspend fun getTransactionsOfBlock(@Path("height")height: Int): List<NetworkTransaction>
+
+    @GET("api/blocks")
+    suspend fun getNextBlockList(@Query("height") height: Int, @Query("count") count: Int): List<NetworkBlock>
 }
 
 object AppNetwork {

@@ -23,7 +23,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
 
     private val _blocks = MutableLiveData<List<Block>>()
     val blocks: LiveData<List<Block>> = _blocks
-
+    private var allBlocks: MutableList<Block> = emptyList<Block>().toMutableList()
     private val _isRefreshing = MutableLiveData<Boolean>()
     val isRefreshing: LiveData<Boolean> = _isRefreshing
 
@@ -36,15 +36,34 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
         uiScope.launch {
             try {
                 val blocks = AppNetwork.appService.getBlocklist().asDomainModel()
+                allBlocks.clear()
+                allBlocks.addAll(blocks)
                 println("blocks: $blocks")
                 _isRefreshing.postValue(false)
-                _blocks.postValue(blocks)
+                _blocks.postValue(allBlocks)
             }catch (e: Exception){
                 _isRefreshing.postValue(false)
             }
-
         }
     }
+
+    fun loadNextDataFromApi(page: Int) {
+        val nextHeight = allBlocks.last().height -1
+        if(nextHeight >= 0){
+            uiScope.launch {
+                try {
+                    val blocks = AppNetwork.appService.getNextBlockList(nextHeight, 40).asDomainModel()
+                    allBlocks.addAll(blocks)
+                    println("load more $blocks")
+                    _blocks.postValue(allBlocks)
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    _isRefreshing.postValue(false)
+                }
+            }
+        }
+    }
+
 
     override fun onCleared() {
         super.onCleared()
@@ -54,4 +73,5 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
     fun refresh() {
         getBlocksFromApi()
     }
+
 }

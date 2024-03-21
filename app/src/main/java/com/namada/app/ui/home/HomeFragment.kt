@@ -17,7 +17,9 @@ import com.namada.app.R
 import com.namada.app.databinding.BlockItemBinding
 import com.namada.app.databinding.FragmentHomeBinding
 import com.namada.app.domain.Block
+import com.namada.app.util.EndlessRecyclerViewScrollListener
 import com.namada.app.util.setActionBarTitle
+
 
 class HomeFragment : Fragment() {
 
@@ -65,6 +67,14 @@ class HomeFragment : Fragment() {
         root.findViewById<RecyclerView>(R.id.recycler_view).apply {
             layoutManager = LinearLayoutManager(context)
             adapter = viewModelAdapter
+            addOnScrollListener(object : EndlessRecyclerViewScrollListener(layoutManager as LinearLayoutManager) {
+                override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+                    // Triggered only when new data needs to be appended to the list
+                    // Add whatever code is needed to append new items to the bottom of the list
+                    println("block load more")
+                    viewModel.loadNextDataFromApi(page)
+                }
+            })
         }
         swipeContainer = root.findViewById<SwipeRefreshLayout>(R.id.swipeContainer)
         swipeContainer.setOnRefreshListener {

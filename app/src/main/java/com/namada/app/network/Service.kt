@@ -35,13 +35,15 @@ interface AppService {
     suspend fun getValidatorList(): NetworkValidatorContainer
 
     @GET("api/transactions")
-    suspend fun getTransaction(@Query("count") count: Int): List<NetworkTransaction>
+    suspend fun getTransaction(@Query("count") count: Int = 10): List<NetworkTransaction>
 
     @GET("api/blocks/{height}/txs")
     suspend fun getTransactionsOfBlock(@Path("height")height: Int): List<NetworkTransaction>
 
     @GET("api/blocks")
     suspend fun getNextBlockList(@Query("height") height: Int, @Query("count") count: Int): List<NetworkBlock>
+    @GET("api/transactions")
+    suspend fun getNextTxList(@Query("height")height: Int,  @Query("count")count: Int = 10): List<NetworkTransaction>
 }
 
 object AppNetwork {

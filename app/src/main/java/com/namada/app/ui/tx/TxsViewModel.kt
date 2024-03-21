@@ -16,6 +16,7 @@ class TxsViewModel : ViewModel() {
     private val uiScope = CoroutineScope(Dispatchers.IO + viewModelJob)
     private val _transaction = MutableLiveData<List<Transaction>>()
     val transactions: LiveData<List<Transaction>> = _transaction
+    private var allTransactions: MutableList<Transaction> = emptyList<Transaction>().toMutableList()
     private val _isRefreshing = MutableLiveData<Boolean>()
     val isRefreshing: LiveData<Boolean> = _isRefreshing
     init {
@@ -27,9 +28,11 @@ class TxsViewModel : ViewModel() {
         uiScope.launch {
             try {
                 val transactions = AppNetwork.appService.getTransaction(10).asTransactionModel()
+                allTransactions.clear()
+                allTransactions.addAll(transactions)
                 _isRefreshing.postValue(false)
                 println("transactions: $transactions")
-                _transaction.postValue(transactions)
+                _transaction.postValue(allTransactions)
             }catch (e: Exception){
                 e.printStackTrace()
                 _isRefreshing.postValue(false)
@@ -42,5 +45,20 @@ class TxsViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+    }
+
+    fun loadNextDataFromApi(page: Int) {
+        val nextHeight = allTransactions.last().height -1
+        if(nextHeight >=0){
+            uiScope.launch {
+                try {
+                    val transactions = AppNetwork.appService.getNextTxList(nextHeight).asTransactionModel()
+                    allTransactions.addAll(transactions)
+                    _transaction.postValue(allTransactions)
+                }catch (e: Exception){
+                    e.printStackTrace()
+                }
+            }
+        }
     }
 }

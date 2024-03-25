@@ -1,3 +1,5 @@
+# Download APK to install:
+ https://github.com/tommydo113/namada-app/blob/main/app/release/app-release.apk
 # Namada SE App
 
  This app provides a user-friendly interface to interact with the Namada.net blockchain, offering a range of features to enhance your experience.

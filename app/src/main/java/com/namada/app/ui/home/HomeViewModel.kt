@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.namada.app.domain.Block
 import com.namada.app.network.AppNetwork
+import com.namada.app.network.AppNetwork3
 import com.namada.app.network.NetworkBlock
 import com.namada.app.network.asDomainModel
 import kotlinx.coroutines.CoroutineScope
@@ -65,6 +66,20 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
     }
 
 
+    fun searchByBlockHeight(height: String) {
+        _isRefreshing.postValue(true)
+        uiScope.launch {
+            try {
+                val blockSearch = AppNetwork3.appService.searchByBlockHeight(height, height)
+                println("blockSearch $blockSearch")
+            }catch (e: Exception){
+                e.printStackTrace()
+                _isRefreshing.postValue(false)
+            }
+        }
+    }
+
+
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
@@ -73,5 +88,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
     fun refresh() {
         getBlocksFromApi()
     }
+
 
 }

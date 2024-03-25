@@ -60,7 +60,9 @@ data class NetworkBlock (
     @Json(name="height"   ) var height   : Int?      = null,
     @Json(name="time"     ) var time     : String?   = null,
     @Json(name="proposer" ) var proposer : Proposer? = Proposer(),
-    @Json(name="txs"      ) var txs      : Int?      = null
+    @Json(name="txs"      ) var txs      : Int?      = null,
+    @Json(name="signatures" ) var signatures : ArrayList<Signatures> = arrayListOf()
+
 
 )
 @JsonClass(generateAdapter = true)
@@ -181,17 +183,17 @@ fun List<NetworkTransaction>.asTransactionModel(): List<Transaction>{
     ) }
 }
 
-/**
- *     {
- *             "address": "2C8300C6D4EE7F9641963DF7B7F53391CC172CB0",
- *             "pub_key": {
- *                 "type": "tendermint/PubKeyEd25519",
- *                 "value": "M5cVI72wX67qbBWmEVbOZqXmUFs8WelMMKb7dpEn7TM="
- *             },
- *             "voting_power": 2692877300000,
- *             "proposer_priority": "47342885438620",
- *             "voting_percentage": 1.7204354248369806,
- *             "moniker": "EmberStake",
- *             "operator_address": "tnam1q9k0jkssxmwdd0g3vpulvl7yp3rv7rnnuyezutcp"
- *         }
- */
+data class BlockSearch (
+    @Json(name="pageProps" ) var pageProps : PageProps? = PageProps(),
+    @Json(name="__N_SSP"   ) var _NSSP     : Boolean?   = null
+)
+data class Signatures (
+    @Json(name="address" ) var address : String? = null,
+    @Json(name="moniker" ) var moniker : String? = null
+)
+data class PageProps (
+
+    @Json(name="block"  ) var block  : Block? = null,
+    @Json(name="height" ) var height : Int?   = null
+
+)

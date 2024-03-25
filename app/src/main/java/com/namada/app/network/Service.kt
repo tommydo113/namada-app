@@ -44,6 +44,9 @@ interface AppService {
     suspend fun getNextBlockList(@Query("height") height: Int, @Query("count") count: Int): List<NetworkBlock>
     @GET("api/transactions")
     suspend fun getNextTxList(@Query("height")height: Int,  @Query("count")count: Int = 10): List<NetworkTransaction>
+
+    @GET("_next/data/DZE3ZfbWa5njyFz9xYSPa/block/{he}.json")
+    suspend fun searchByBlockHeight(@Path("he")he: String, @Query("height")height: String): BlockSearch
 }
 
 object AppNetwork {
@@ -53,6 +56,18 @@ object AppNetwork {
             .baseUrl("https://namada.api.explorers.guru/")
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
+
+    val appService = retrofit.create(AppService::class.java)
+
+}
+
+object AppNetwork3 {
+
+    // Configure retrofit to parse JSON and use coroutines
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("https://namada.explorers.guru/")
+        .addConverterFactory(MoshiConverterFactory.create())
+        .build()
 
     val appService = retrofit.create(AppService::class.java)
 

@@ -10,6 +10,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -17,6 +18,7 @@ import com.namada.app.R
 import com.namada.app.databinding.FragmentTransactionsBinding
 import com.namada.app.databinding.TransactionItemBinding
 import com.namada.app.domain.Transaction
+import com.namada.app.ui.home.HomeFragmentDirections
 import com.namada.app.util.EndlessRecyclerViewScrollListener
 import com.namada.app.util.setActionBarTitle
 
@@ -50,6 +52,9 @@ class TxsFragment : Fragment() {
         val root: View = binding.root
         viewModelAdapter = TransactionAdapter(TransactionClick {
             println("click tx")
+            findNavController().navigate(
+                TxsFragmentDirections.actionNavigationTransactionToTxDetailFragment(it)
+            )
         })
         root.findViewById<RecyclerView>(R.id.recycler_view).apply {
             layoutManager = LinearLayoutManager(context)
@@ -139,6 +144,9 @@ class TransactionAdapter(val callback: TransactionClick) : RecyclerView.Adapter<
             append("")
             append(item.height)
         }
+        if(item.status == 0){
+            holder.status.text = "Success"
+        }else holder.status.text = "Failed"
 
     }
 
@@ -148,6 +156,7 @@ class TransactionViewHolder(val viewDataBinding: TransactionItemBinding):
     RecyclerView.ViewHolder(viewDataBinding.root){
     val blockHeight: TextView = viewDataBinding.blockHeight
     val gasUsed: TextView = viewDataBinding.txGasUsed
+    val status: TextView = viewDataBinding.status
     companion object {
         @LayoutRes
         val LAYOUT = R.layout.transaction_item

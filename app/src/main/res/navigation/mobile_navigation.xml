@@ -31,7 +31,11 @@
         android:id="@+id/navigation_transaction"
         android:name="com.namada.app.ui.tx.TxsFragment"
         android:label="@string/transactions"
-        tools:layout="@layout/fragment_transactions" />
+        tools:layout="@layout/fragment_transactions" >
+        <action
+            android:id="@+id/action_navigation_transaction_to_txDetailFragment"
+            app:destination="@id/navigation_tx_detail" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_block_detail"
@@ -42,4 +46,15 @@
             android:name="block"
             app:argType="com.namada.app.domain.Block" />
     </fragment>
+    <fragment
+        android:id="@+id/navigation_tx_detail"
+        android:name="com.namada.app.ui.txdetail.TxDetailFragment"
+        android:label="@string/transaction"
+        tools:layout="@layout/fragment_tx_detail" >
+        <argument
+            android:name="transaction"
+            app:argType="com.namada.app.domain.Transaction"/>
+    </fragment>
+
+
 </navigation>

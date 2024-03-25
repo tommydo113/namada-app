@@ -72,7 +72,7 @@ data class Transaction (
     val height: Int,
     val gasWanted: Int,
     val gasUsed: Int
-)
+): Serializable
 /**
  *  {
  *         "hash": "8C265342AF9589F483B68CE1F34030EC8B1AEF5CBFEDE4A8F20A848132F71D92",

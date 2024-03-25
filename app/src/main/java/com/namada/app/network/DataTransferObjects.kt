@@ -60,11 +60,11 @@ data class NetworkBlock (
     @Json(name="height"   ) var height   : Int?      = null,
     @Json(name="time"     ) var time     : String?   = null,
     @Json(name="proposer" ) var proposer : Proposer? = Proposer(),
-    @Json(name="txs"      ) var txs      : Int?      = null,
-    @Json(name="signatures" ) var signatures : ArrayList<Signatures> = arrayListOf()
-
+    @Json(name="txs"      ) var txs      : Int?      = null
 
 )
+//,
+//    @Json(name="signatures" ) var signatures : ArrayList<Signatures>? = arrayListOf()
 @JsonClass(generateAdapter = true)
 data class Proposer (
     @Json(name="address" ) var address : String? = null,
@@ -182,15 +182,17 @@ fun List<NetworkTransaction>.asTransactionModel(): List<Transaction>{
         gasUsed =  it.gasUsed ?: 0
     ) }
 }
-
+@JsonClass(generateAdapter = true)
 data class BlockSearch (
     @Json(name="pageProps" ) var pageProps : PageProps? = PageProps(),
     @Json(name="__N_SSP"   ) var _NSSP     : Boolean?   = null
 )
+@JsonClass(generateAdapter = true)
 data class Signatures (
     @Json(name="address" ) var address : String? = null,
     @Json(name="moniker" ) var moniker : String? = null
 )
+@JsonClass(generateAdapter = true)
 data class PageProps (
 
     @Json(name="block"  ) var block  : Block? = null,

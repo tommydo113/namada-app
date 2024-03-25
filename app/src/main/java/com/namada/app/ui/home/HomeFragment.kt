@@ -105,6 +105,7 @@ class HomeFragment : Fragment() {
         progressDialog?.setCancelable(false)
         progressDialog?.setMessage("Loading data, please wait for a moment")
         progressDialog?.show()
+        viewModel.getBlocksFromApi()
         viewModel.blocks.observe(viewLifecycleOwner) { blocks ->
             blocks?.apply {
                 viewModelAdapter?.blocks = blocks
@@ -118,7 +119,7 @@ class HomeFragment : Fragment() {
         viewModel.isRefreshing.observe(viewLifecycleOwner) { isRefreshing ->
             swipeContainer.isRefreshing = isRefreshing
         }
-        //initSearchInputListener()
+        initSearchInputListener()
     }
 
     private fun initSearchInputListener() {
@@ -144,7 +145,7 @@ class HomeFragment : Fragment() {
         val query = binding.input.text.toString()
         // Dismiss keyboard
         dismissKeyboard(activity, v.windowToken)
-        if(isNumeric(query)){
+        if(!isNumeric(query)){
             Snackbar.make(v, "Format of Block Height is incorrect", Snackbar.LENGTH_SHORT).show()
         }else {
             viewModel.searchByBlockHeight(query)

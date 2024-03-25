@@ -29,10 +29,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
     val isRefreshing: LiveData<Boolean> = _isRefreshing
 
     init {
-        getBlocksFromApi()
+
     }
 
-    private fun getBlocksFromApi() {
+    fun getBlocksFromApi() {
         _isRefreshing.postValue(true)
         uiScope.launch {
             try {

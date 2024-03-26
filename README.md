@@ -6,13 +6,16 @@
 
 ## Features
 
-•  [**Block and Network Information**]: Get real-time insights into blocks and network statistics.
+•  [**Block and Network Information**]: Get real-time insights into blocks and network statistics, search block by height.
 
-•  [**Transaction History**]: View detailed lists of transactions.
+•  [**Transaction History**]: View detailed lists of transactions, search transaction by hash.
 
 •  [**Validator List**]: Explore and search for validators by address or moniker.
 
-•  [**Governance**]: Participate in governance by viewing and filtering proposals.
+•  [**Governance**]: Participate in governance by viewing and filtering proposals by kind, status.
+
+## Demo Video:
+![Video](screenshots/Screen_recording.mp4)
 
 ## Screenshots
 ![Last Blocks](screenshots/blocks.png)

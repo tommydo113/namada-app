@@ -119,6 +119,18 @@ class HomeFragment : Fragment() {
         viewModel.isRefreshing.observe(viewLifecycleOwner) { isRefreshing ->
             swipeContainer.isRefreshing = isRefreshing
         }
+        viewModel.blockSearchResult.observe(viewLifecycleOwner){ block ->
+            if(block != null) {
+                if (block.hash.isEmpty()) {
+                    Snackbar.make(view, "Block not found", Snackbar.LENGTH_SHORT).show()
+                } else {
+                    findNavController().navigate(
+                        HomeFragmentDirections.actionNavigationHomeToNavigationBlockDetail(block)
+                    )
+                }
+                viewModel.clearBlockSearchResult()
+            }
+        }
         initSearchInputListener()
     }
 

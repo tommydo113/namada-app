@@ -11,6 +11,7 @@ import com.namada.app.network.AppNetwork
 import com.namada.app.network.AppNetwork3
 import com.namada.app.network.NetworkBlock
 import com.namada.app.network.asDomainModel
+import com.namada.app.network.toBlockModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -27,6 +28,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
     private var allBlocks: MutableList<Block> = emptyList<Block>().toMutableList()
     private val _isRefreshing = MutableLiveData<Boolean>()
     val isRefreshing: LiveData<Boolean> = _isRefreshing
+    private val _blockSearchResult = MutableLiveData<Block?>()
+    val blockSearchResult : LiveData<Block?> = _blockSearchResult
 
     init {
 
@@ -70,8 +73,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
         _isRefreshing.postValue(true)
         uiScope.launch {
             try {
-                val blockSearch = AppNetwork3.appService.searchByBlockHeight(height, height)
+                val blockSearch = AppNetwork3.appService.searchByBlockHeight(height, height).toBlockModel()
                 println("blockSearch $blockSearch")
+                _isRefreshing.postValue(false)
+                _blockSearchResult.postValue(blockSearch)
             }catch (e: Exception){
                 e.printStackTrace()
                 _isRefreshing.postValue(false)
@@ -79,7 +84,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
         }
     }
 
-
+    fun clearBlockSearchResult() {
+        _blockSearchResult.value  = null
+    }
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
@@ -88,6 +95,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
     fun refresh() {
         getBlocksFromApi()
     }
+
+
 
 
 }

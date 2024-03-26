@@ -99,6 +99,17 @@ fun List<NetworkBlock>.asDomainModel(): List<Block> {
     }
 }
 
+fun BlockSearch.toBlockModel(): Block {
+    return Block(
+        hash = pageProps?.block?.hash ?: "",
+        time = pageProps?.block?.time ?: "",
+        proposerAddress =  pageProps?.block?.proposer?.address ?: "",
+        proposerMoniker = pageProps?.block?.proposer?.moniker ?: "",
+        height = pageProps?.block?.height ?: 0,
+        txCount = pageProps?.block?.txs?.size ?: 0
+    )
+}
+
 fun List<NetworkValidator>.asValidatorModel(): List<Validator>{
     return map{
         Validator(operatorAddress = it.operatorAddress ?: "",
@@ -184,8 +195,7 @@ fun List<NetworkTransaction>.asTransactionModel(): List<Transaction>{
 }
 @JsonClass(generateAdapter = true)
 data class BlockSearch (
-    @Json(name="pageProps" ) var pageProps : PageProps? = PageProps(),
-    @Json(name="__N_SSP"   ) var _NSSP     : Boolean?   = null
+    @Json(name="pageProps" ) var pageProps : PageProps? = PageProps()
 )
 @JsonClass(generateAdapter = true)
 data class Signatures (
@@ -195,7 +205,19 @@ data class Signatures (
 @JsonClass(generateAdapter = true)
 data class PageProps (
 
-    @Json(name="block"  ) var block  : Block? = null,
+    @Json(name="block"  ) var block  : BlockTxResponse? = null,
     @Json(name="height" ) var height : Int?   = null
 
 )
+@JsonClass(generateAdapter = true)
+data class BlockTxResponse (
+
+    @Json(name="hash"       ) var hash       : String?               = null,
+    @Json(name="height"     ) var height     : Int?                  = null,
+    @Json(name="time"       ) var time       : String?               = null,
+    @Json(name="proposer"   ) var proposer   : Proposer?             = Proposer(),
+    @Json(name="txs"        ) var txs        : List<String>?     = emptyList(),
+    @Json(name="signatures" ) var signatures : List<Signatures>? = emptyList()
+
+)
+

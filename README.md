@@ -1,5 +1,5 @@
 # Download APK to install:
- https://github.com/tommydo113/namada-app/blob/main/app/release/app-release.apk
+ ![](screenshots/app/release/app-release.apk
 # Namada SE App
 
  This app provides a user-friendly interface to interact with the Namada.net blockchain, offering a range of features to enhance your experience.
@@ -15,17 +15,15 @@
 •  [**Governance**]: Participate in governance by viewing and filtering proposals.
 
 ## Screenshots
-    - Last Blocks
-    ![Last Blocks](https://github.com/tommydo113/namada-app/blob/main/screenshots/blocks.png)
-
-https://github.com/tommydo113/namada-app/blob/main/screenshots/block_detail.jpg
-https://github.com/tommydo113/namada-app/blob/main/screenshots/transactions.png
-https://github.com/tommydo113/namada-app/blob/main/screenshots/transaction_detail.jpg
-https://github.com/tommydo113/namada-app/blob/main/screenshots/validators.jpg
-https://github.com/tommydo113/namada-app/blob/main/screenshots/search_validator.jpg
-https://github.com/tommydo113/namada-app/blob/main/screenshots/proposals.jpg
-https://github.com/tommydo113/namada-app/blob/main/screenshots/filter_proposal_kind.jpg
-https://github.com/tommydo113/namada-app/blob/main/screenshots/filter_proposal_status.jpg
+![Last Blocks](screenshots/blocks.png)
+![Block Detail](screenshots/block_detail.jpg
+![Last Transactions](screenshots/transactions.png
+![Transaction Detail](screenshots/transaction_detail.jpg
+![Validators](screenshots/validators.jpg
+![Search Validator](screenshots/search_validator.jpg
+![Proposals](screenshots/proposals.jpg
+![Filter Proposals by kind](screenshots/filter_proposal_kind.jpg
+![Filter Proposal by status](screenshots/filter_proposal_status.jpg
 
 
 

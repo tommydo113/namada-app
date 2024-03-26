@@ -75,3 +75,7 @@ fun isNumeric(toCheck: String): Boolean {
     val regex = "-?[0-9]+(\\.[0-9]+)?".toRegex()
     return toCheck.matches(regex)
 }
+
+fun isValidHashTx(hash: String): Boolean {
+    return hash.length < 32
+}

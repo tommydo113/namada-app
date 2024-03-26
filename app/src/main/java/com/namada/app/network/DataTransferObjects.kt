@@ -220,4 +220,51 @@ data class BlockTxResponse (
     @Json(name="signatures" ) var signatures : List<Signatures>? = emptyList()
 
 )
+@JsonClass(generateAdapter = true)
+data class TxSearch (
 
+    @Json(name="pageProps" ) var pageProps : PagePropsTx? = PagePropsTx(),
+    @Json(name="__N_SSP"   ) var _NSSP     : Boolean?   = null
+
+)
+@JsonClass(generateAdapter = true)
+data class PagePropsTx (
+
+    @Json(name="hash"        ) var hash        : String?      = null,
+    @Json(name="transaction" ) var transaction : TransactionSearch? = TransactionSearch()
+
+)
+@JsonClass(generateAdapter = true)
+data class TxResult (
+
+    @Json(name="code"       ) var code      : Int?              = null,
+    @Json(name="data"       ) var data      : String?           = null,
+    @Json(name="log"        ) var log       : String?           = null,
+    @Json(name="info"       ) var info      : String?           = null,
+    @Json(name="gas_wanted" ) var gasWanted : String?           = null,
+    @Json(name="gas_used"   ) var gasUsed   : String?           = null,
+    @Json(name="events"     ) var events    : List<String> = emptyList(),
+    @Json(name="codespace"  ) var codespace : String?           = null
+
+)
+@JsonClass(generateAdapter = true)
+data class TransactionSearch (
+
+    @Json(name="hash"      ) var hash     : String?   = null,
+    @Json(name="height"    ) var height   : String?   = null,
+    @Json(name="index"     ) var index    : Int?      = null,
+    @Json(name="tx_result" ) var txResult : TxResult? = TxResult(),
+    @Json(name="tx"        ) var tx       : String?   = null
+
+)
+
+fun TxSearch.toTransactionModel(): Transaction {
+    return Transaction(
+        hash = this.pageProps?.transaction?.hash ?: "",
+        status =  this.pageProps?.transaction?.txResult?.code ?: 0,
+        height = this.pageProps?.transaction?.height?.toInt() ?: 0,
+        gasUsed = this.pageProps?.transaction?.txResult?.gasUsed?.toInt() ?: 0 ,
+        gasWanted = this.pageProps?.transaction?.txResult?.gasWanted?.toInt() ?: 0
+    )
+
+}

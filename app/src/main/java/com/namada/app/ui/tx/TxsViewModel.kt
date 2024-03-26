@@ -5,7 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.namada.app.domain.Transaction
 import com.namada.app.network.AppNetwork
+import com.namada.app.network.AppNetwork3
 import com.namada.app.network.asTransactionModel
+import com.namada.app.network.toBlockModel
+import com.namada.app.network.toTransactionModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -19,6 +22,9 @@ class TxsViewModel : ViewModel() {
     private var allTransactions: MutableList<Transaction> = emptyList<Transaction>().toMutableList()
     private val _isRefreshing = MutableLiveData<Boolean>()
     val isRefreshing: LiveData<Boolean> = _isRefreshing
+    private val _txSearchResult = MutableLiveData<Transaction?>()
+    val txSearchResult: LiveData<Transaction?> = _txSearchResult
+
     init {
         getTransactionsFromApi()
     }
@@ -60,5 +66,24 @@ class TxsViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    fun searchByTxHash(txHash: String) {
+        _isRefreshing.postValue(true)
+        uiScope.launch {
+            try {
+                val txSearch = AppNetwork3.appService.searchByTxHash(txHash, txHash).toTransactionModel()
+                println("txSearch $txSearch")
+                _isRefreshing.postValue(false)
+                _txSearchResult.postValue(txSearch)
+            }catch (e: Exception){
+                e.printStackTrace()
+                _isRefreshing.postValue(false)
+            }
+        }
+    }
+
+    fun clearTxSearchResult() {
+        _txSearchResult.value = null
     }
 }

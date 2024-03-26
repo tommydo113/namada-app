@@ -49,6 +49,9 @@ interface AppService {
 
     @GET("_next/data/DZE3ZfbWa5njyFz9xYSPa/block/{he}.json")
     suspend fun searchByBlockHeight(@Path("he")he: String, @Query("height")height: String): BlockSearch
+
+    @GET("_next/data/DZE3ZfbWa5njyFz9xYSPa/transaction/{tx}.json")
+    suspend fun searchByTxHash(@Path("tx")tx: String, @Query("hash") txHash: String): TxSearch
 }
 
 object AppNetwork {

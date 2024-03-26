@@ -2,9 +2,11 @@ package com.namada.app.ui.tx
 
 import android.app.ProgressDialog
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
@@ -14,12 +16,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.snackbar.Snackbar
 import com.namada.app.R
 import com.namada.app.databinding.FragmentTransactionsBinding
 import com.namada.app.databinding.TransactionItemBinding
 import com.namada.app.domain.Transaction
 import com.namada.app.ui.home.HomeFragmentDirections
 import com.namada.app.util.EndlessRecyclerViewScrollListener
+import com.namada.app.util.dismissKeyboard
+import com.namada.app.util.isNumeric
+import com.namada.app.util.isValidHashTx
 import com.namada.app.util.setActionBarTitle
 
 class TxsFragment : Fragment() {
@@ -98,6 +104,45 @@ class TxsFragment : Fragment() {
         }
         viewModel.isRefreshing.observe(viewLifecycleOwner){ isRefreshing ->
             swipeContainer.isRefreshing = isRefreshing
+        }
+        viewModel.txSearchResult.observe(viewLifecycleOwner){ transaction ->
+            if(transaction != null){
+                findNavController().navigate(
+                    TxsFragmentDirections.actionNavigationTransactionToTxDetailFragment(transaction)
+                )
+                viewModel.clearTxSearchResult()
+            }
+        }
+        initSearchInputListener()
+    }
+
+    private fun initSearchInputListener() {
+        binding.input.setOnEditorActionListener { view: View, actionId: Int, _: KeyEvent? ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                doSearch(view)
+                true
+            } else {
+                false
+            }
+        }
+        binding.input.setOnKeyListener { view: View, keyCode: Int, event: KeyEvent ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                doSearch(view)
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private fun doSearch(v: View) {
+        val query = binding.input.text.toString()
+        // Dismiss keyboard
+        dismissKeyboard(activity, v.windowToken)
+        if(isValidHashTx(query)){
+            Snackbar.make(v, "Format of Tx Hash is incorrect", Snackbar.LENGTH_SHORT).show()
+        }else {
+            viewModel.searchByTxHash(query)
         }
     }
 

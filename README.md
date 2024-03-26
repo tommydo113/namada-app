@@ -15,7 +15,9 @@
 •  [**Governance**]: Participate in governance by viewing and filtering proposals.
 
 ## Screenshots
+    - Last Blocks
     ![Last Blocks](https://github.com/tommydo113/namada-app/blob/main/screenshots/blocks.png)
+
 https://github.com/tommydo113/namada-app/blob/main/screenshots/block_detail.jpg
 https://github.com/tommydo113/namada-app/blob/main/screenshots/transactions.png
 https://github.com/tommydo113/namada-app/blob/main/screenshots/transaction_detail.jpg

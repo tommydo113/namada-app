@@ -63,6 +63,8 @@ data class NetworkBlock (
     @Json(name="txs"      ) var txs      : Int?      = null
 
 )
+//,
+//    @Json(name="signatures" ) var signatures : ArrayList<Signatures>? = arrayListOf()
 @JsonClass(generateAdapter = true)
 data class Proposer (
     @Json(name="address" ) var address : String? = null,
@@ -95,6 +97,17 @@ fun List<NetworkBlock>.asDomainModel(): List<Block> {
                 height = it.height ?: 0,
                 txCount = it.txs ?: 0)
     }
+}
+
+fun BlockSearch.toBlockModel(): Block {
+    return Block(
+        hash = pageProps?.block?.hash ?: "",
+        time = pageProps?.block?.time ?: "",
+        proposerAddress =  pageProps?.block?.proposer?.address ?: "",
+        proposerMoniker = pageProps?.block?.proposer?.moniker ?: "",
+        height = pageProps?.block?.height ?: 0,
+        txCount = pageProps?.block?.txs?.size ?: 0
+    )
 }
 
 fun List<NetworkValidator>.asValidatorModel(): List<Validator>{
@@ -180,18 +193,31 @@ fun List<NetworkTransaction>.asTransactionModel(): List<Transaction>{
         gasUsed =  it.gasUsed ?: 0
     ) }
 }
+@JsonClass(generateAdapter = true)
+data class BlockSearch (
+    @Json(name="pageProps" ) var pageProps : PageProps? = PageProps()
+)
+@JsonClass(generateAdapter = true)
+data class Signatures (
+    @Json(name="address" ) var address : String? = null,
+    @Json(name="moniker" ) var moniker : String? = null
+)
+@JsonClass(generateAdapter = true)
+data class PageProps (
 
-/**
- *     {
- *             "address": "2C8300C6D4EE7F9641963DF7B7F53391CC172CB0",
- *             "pub_key": {
- *                 "type": "tendermint/PubKeyEd25519",
- *                 "value": "M5cVI72wX67qbBWmEVbOZqXmUFs8WelMMKb7dpEn7TM="
- *             },
- *             "voting_power": 2692877300000,
- *             "proposer_priority": "47342885438620",
- *             "voting_percentage": 1.7204354248369806,
- *             "moniker": "EmberStake",
- *             "operator_address": "tnam1q9k0jkssxmwdd0g3vpulvl7yp3rv7rnnuyezutcp"
- *         }
- */
+    @Json(name="block"  ) var block  : BlockTxResponse? = null,
+    @Json(name="height" ) var height : Int?   = null
+
+)
+@JsonClass(generateAdapter = true)
+data class BlockTxResponse (
+
+    @Json(name="hash"       ) var hash       : String?               = null,
+    @Json(name="height"     ) var height     : Int?                  = null,
+    @Json(name="time"       ) var time       : String?               = null,
+    @Json(name="proposer"   ) var proposer   : Proposer?             = Proposer(),
+    @Json(name="txs"        ) var txs        : List<String>?     = emptyList(),
+    @Json(name="signatures" ) var signatures : List<Signatures>? = emptyList()
+
+)
+

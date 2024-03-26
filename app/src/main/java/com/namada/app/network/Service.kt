@@ -16,12 +16,14 @@
 
 package com.namada.app.network
 
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-
+import java.util.concurrent.TimeUnit
+import okhttp3.logging.HttpLoggingInterceptor
 // Since we only have one service, this can all go in one file.
 // If you add more services, split this to multiple files and make sure to share the retrofit
 // object between services.
@@ -44,6 +46,9 @@ interface AppService {
     suspend fun getNextBlockList(@Query("height") height: Int, @Query("count") count: Int): List<NetworkBlock>
     @GET("api/transactions")
     suspend fun getNextTxList(@Query("height")height: Int,  @Query("count")count: Int = 10): List<NetworkTransaction>
+
+    @GET("_next/data/DZE3ZfbWa5njyFz9xYSPa/block/{he}.json")
+    suspend fun searchByBlockHeight(@Path("he")he: String, @Query("height")height: String): BlockSearch
 }
 
 object AppNetwork {
@@ -53,6 +58,30 @@ object AppNetwork {
             .baseUrl("https://namada.api.explorers.guru/")
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
+
+    val appService = retrofit.create(AppService::class.java)
+
+}
+
+object AppNetwork3 {
+    private val interceptor = HttpLoggingInterceptor().apply {
+        setLevel(HttpLoggingInterceptor.Level.BODY)
+    };
+    val client = OkHttpClient.Builder().apply {
+        this.addInterceptor(interceptor)
+            // time out setting
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(20,TimeUnit.SECONDS)
+            .writeTimeout(25,TimeUnit.SECONDS)
+
+    }.build()
+
+    // Configure retrofit to parse JSON and use coroutines
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("https://namada.explorers.guru/")
+        .client(client)
+        .addConverterFactory(MoshiConverterFactory.create())
+        .build()
 
     val appService = retrofit.create(AppService::class.java)
 

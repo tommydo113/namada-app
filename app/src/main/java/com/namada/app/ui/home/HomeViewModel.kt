@@ -8,8 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.namada.app.domain.Block
 import com.namada.app.network.AppNetwork
+import com.namada.app.network.AppNetwork3
 import com.namada.app.network.NetworkBlock
 import com.namada.app.network.asDomainModel
+import com.namada.app.network.toBlockModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -26,12 +28,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
     private var allBlocks: MutableList<Block> = emptyList<Block>().toMutableList()
     private val _isRefreshing = MutableLiveData<Boolean>()
     val isRefreshing: LiveData<Boolean> = _isRefreshing
+    private val _blockSearchResult = MutableLiveData<Block?>()
+    val blockSearchResult : LiveData<Block?> = _blockSearchResult
 
     init {
-        getBlocksFromApi()
+
     }
 
-    private fun getBlocksFromApi() {
+    fun getBlocksFromApi() {
         _isRefreshing.postValue(true)
         uiScope.launch {
             try {
@@ -65,6 +69,24 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
     }
 
 
+    fun searchByBlockHeight(height: String) {
+        _isRefreshing.postValue(true)
+        uiScope.launch {
+            try {
+                val blockSearch = AppNetwork3.appService.searchByBlockHeight(height, height).toBlockModel()
+                println("blockSearch $blockSearch")
+                _isRefreshing.postValue(false)
+                _blockSearchResult.postValue(blockSearch)
+            }catch (e: Exception){
+                e.printStackTrace()
+                _isRefreshing.postValue(false)
+            }
+        }
+    }
+
+    fun clearBlockSearchResult() {
+        _blockSearchResult.value  = null
+    }
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
@@ -73,5 +95,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application){
     fun refresh() {
         getBlocksFromApi()
     }
+
+
+
 
 }

@@ -14,6 +14,18 @@
 
 •  [**Governance**]: Participate in governance by viewing and filtering proposals.
 
+## Screenshots
+https://github.com/tommydo113/namada-app/blob/main/screenshots/blocks.png
+https://github.com/tommydo113/namada-app/blob/main/screenshots/block_detail.jpg
+https://github.com/tommydo113/namada-app/blob/main/screenshots/transactions.png
+https://github.com/tommydo113/namada-app/blob/main/screenshots/transaction_detail.jpg
+https://github.com/tommydo113/namada-app/blob/main/screenshots/validators.jpg
+https://github.com/tommydo113/namada-app/blob/main/screenshots/search_validator.jpg
+https://github.com/tommydo113/namada-app/blob/main/screenshots/proposals.jpg
+https://github.com/tommydo113/namada-app/blob/main/screenshots/filter_proposal_kind.jpg
+https://github.com/tommydo113/namada-app/blob/main/screenshots/filter_proposal_status.jpg
+
+
 
 ## Installation
 

@@ -16,6 +16,7 @@
 
 ## Demo Video:
 ![Video](screenshots/Screen_recording.mp4)
+![Video](https://github.com/tommydo113/namada-app/blob/main/screenshots/Screen_recording.mp4)
 
 ## Screenshots
 ![Last Blocks](screenshots/blocks.png)

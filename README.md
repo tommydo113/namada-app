@@ -16,7 +16,6 @@
 
 ## Demo Video:
 ![Video](screenshots/Screen_recording.mp4)
-![Video](https://github.com/tommydo113/namada-app/blob/main/screenshots/Screen_recording.mp4)
 
 ## Screenshots
 ![Last Blocks](screenshots/blocks.png)
@@ -56,7 +55,7 @@ Contributions are what make the open-source community such an amazing place to l
 4. Push to the branch (`git push origin feature/AmazingFeature`).
 5. Open a pull request.
 
-
+## Thank you: This app is consuming API from https://namada.api.explorers.guru/ and https://it.api.namada.red/
 
 TommyApps - tommy.do.mobile@gmail.com
 

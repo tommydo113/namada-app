@@ -64,6 +64,8 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.3.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.3.1")
 
     // moshi for parsing the JSON format
     implementation ("com.squareup.moshi:moshi:1.14.0")

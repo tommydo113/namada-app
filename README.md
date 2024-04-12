@@ -15,7 +15,7 @@
 •  [**Governance**]: Participate in governance by viewing and filtering proposals by kind, status.
 
 ## Demo Video:
-[![Video](screenshots/Screen_recording_2.mp4)](https://youtube.com/shorts/ILQ7MEvCIqY?feature=share)
+[![Video](screenshots/Screen_recording.mp4)](https://youtube.com/shorts/ILQ7MEvCIqY?feature=share)
 
 ## Screenshots
 ![Last Blocks](screenshots/blocks.png)

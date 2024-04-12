@@ -1,5 +1,5 @@
 # Download APK to install:
- ![](screenshots/app/release/app-release.apk
+[https://github.com/tommydo113/namada-app/blob/main/app/release/app-release.apk]
 # Namada SE App
 
  This app provides a user-friendly interface to interact with the Namada.net blockchain, offering a range of features to enhance your experience.
@@ -15,7 +15,7 @@
 •  [**Governance**]: Participate in governance by viewing and filtering proposals by kind, status.
 
 ## Demo Video:
-![Video](screenshots/Screen_recording.mp4)
+![Video](screenshots/Screen_recording_2.mp4)
 
 ## Screenshots
 ![Last Blocks](screenshots/blocks.png)
@@ -55,7 +55,7 @@ Contributions are what make the open-source community such an amazing place to l
 4. Push to the branch (`git push origin feature/AmazingFeature`).
 5. Open a pull request.
 
-## Thank you: This app is consuming API from https://namada.api.explorers.guru/ and https://it.api.namada.red/
+## Thank you: This app is consuming API from https://namada.api.explorers.guru/ and [https://it.api.namada.red/](https://api.namada.valopers.com/)
 
 TommyApps - tommy.do.mobile@gmail.com
 

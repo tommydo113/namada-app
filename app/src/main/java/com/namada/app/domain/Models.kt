@@ -16,6 +16,7 @@
 
 package com.namada.app.domain
 
+import com.namada.app.network.ProposalContent
 import com.namada.app.util.formatTime
 import com.namada.app.util.smartTruncate
 import java.io.Serializable
@@ -61,10 +62,11 @@ data class Proposal (
     val endEpoch     : Int,
     val graceEpoch   : Int,
     val result       : String,
-    val yayVotes     : Long,
-    val nayVotes     : Long,
-    val abstainVotes : Long
-)
+    val yayVotes     : Double,
+    val nayVotes     : Double,
+    val abstainVotes : Double,
+    val details: String?
+): Serializable
 
 data class Transaction (
     val hash: String,

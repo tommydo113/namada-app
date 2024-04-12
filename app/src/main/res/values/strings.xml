@@ -11,14 +11,13 @@
     <string name="search_validator_hint">search validators by moniker, address</string>
     <string name="search_block_hint">Search by block height</string>
     <string name="search_tx_hint">Search transaction by tx hash</string>
+    <string name="proposal">Proposal</string>
     <string-array name="proposal_status">
-        <item>All</item>
-        <item>Rejected</item>
-        <item>Passed</item>
+        <item>Active</item>
         <item>Pending</item>
+        <item>Ended</item>
     </string-array>
     <string-array name="proposal_kind">
-        <item>All</item>
         <item>PgfSteward</item>
         <item>Default</item>
         <item>PgfFunding</item>

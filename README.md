@@ -24,9 +24,9 @@
 ![Transaction Detail](screenshots/transaction_detail.jpg)
 ![Validators](screenshots/validators.jpg)
 ![Search Validator](screenshots/search_validator.jpg)
-![Proposals](screenshots/proposals.jpg)
-![Filter Proposals by kind](screenshots/filter_proposal_kind.jpg)
-![Filter Proposal by status](screenshots/filter_proposal_status.jpg)
+![Proposals](screenshots/proposals.png)
+![Show proposal details](screenshots/proposal_details.png)
+![Filter Proposal by status](screenshots/filter_proposal_status.png)
 
 
 

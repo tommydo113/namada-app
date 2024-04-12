@@ -14,6 +14,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -59,6 +60,9 @@ class ProposalFragment : Fragment() , AdapterView.OnItemSelectedListener{
 
         viewModelAdapter = ProposalAdapter(screenWidth, ProposalClick {
             println("click Proposal")
+            findNavController().navigate(
+                ProposalFragmentDirections.actionNavigationProposalToProposalDetailFragment(it)
+            )
         })
         root.findViewById<RecyclerView>(R.id.recycler_view).apply {
             layoutManager = LinearLayoutManager(context)
@@ -70,9 +74,9 @@ class ProposalFragment : Fragment() , AdapterView.OnItemSelectedListener{
         }
         return root
     }
-
+    lateinit var spinner: Spinner
     private fun setupStatusSpinner(root: View) {
-        val spinner: Spinner = root.findViewById(R.id.spinner)
+         spinner = root.findViewById(R.id.spinner)
         // Create an ArrayAdapter using the string array and a default spinner layout.
         ArrayAdapter.createFromResource(
             requireContext(),
@@ -86,9 +90,9 @@ class ProposalFragment : Fragment() , AdapterView.OnItemSelectedListener{
         }
         spinner.onItemSelectedListener = this
     }
-
+    lateinit var kindSpinner: Spinner
     private fun setupKindSpinner(root: View){
-        val kindSpinner: Spinner = root.findViewById(R.id.kind_spinner)
+        kindSpinner = root.findViewById(R.id.kind_spinner)
         // Create an ArrayAdapter using the string array and a default spinner layout.
         ArrayAdapter.createFromResource(
             requireContext(),
@@ -149,7 +153,7 @@ class ProposalFragment : Fragment() , AdapterView.OnItemSelectedListener{
         progressDialog = ProgressDialog(requireContext())
         progressDialog?.setCancelable(false)
         progressDialog?.setMessage("Loading data, please wait for a moment")
-        progressDialog?.show()
+//        progressDialog?.show()
         viewModel.proposals.observe(viewLifecycleOwner) { proposals ->
             proposals?.apply {
                 viewModelAdapter?.proposals = proposals
@@ -158,7 +162,7 @@ class ProposalFragment : Fragment() , AdapterView.OnItemSelectedListener{
 //                        .append(proposals[0].id)
 //                })
             }
-            progressDialog?.dismiss()
+//            progressDialog?.dismiss()
         }
         viewModel.isRefreshing.observe(viewLifecycleOwner){ isRefreshing ->
             swipeContainer.isRefreshing = isRefreshing
@@ -213,7 +217,7 @@ class ProposalAdapter(val screenWidth: Int, val callback: ProposalClick) : Recyc
         }
         val item = proposals[position]
         holder.id.text = buildString {
-            append("")
+            append("#")
             append(item.id)
          }
         holder.startEnd.text = buildString {

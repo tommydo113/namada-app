@@ -104,7 +104,7 @@ class HomeFragment : Fragment() {
         progressDialog = ProgressDialog(requireContext())
         progressDialog?.setCancelable(false)
         progressDialog?.setMessage("Loading data, please wait for a moment")
-        progressDialog?.show()
+//        progressDialog?.show()
         viewModel.getBlocksFromApi()
         viewModel.blocks.observe(viewLifecycleOwner) { blocks ->
             blocks?.apply {
@@ -114,7 +114,7 @@ class HomeFragment : Fragment() {
                         .append(blocks[0].height)
                 })
             }
-            progressDialog?.dismiss()
+//            progressDialog?.dismiss()
         }
         viewModel.isRefreshing.observe(viewLifecycleOwner) { isRefreshing ->
             swipeContainer.isRefreshing = isRefreshing

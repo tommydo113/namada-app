@@ -21,7 +21,9 @@ import com.namada.app.domain.Proposal
 import com.namada.app.domain.Transaction
 import com.namada.app.domain.Validator
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonClass
+import com.squareup.moshi.Moshi
 
 /**
  * DataTransferObjects go in this file. These are responsible for parsing responses from the server
@@ -48,6 +50,8 @@ data class NetworkValidatorContainer(val validators: List<NetworkValidator>)
 
 @JsonClass(generateAdapter = true)
 data class NetworkProposalContainer(val proposals: List<NetworkProposal>)
+@JsonClass(generateAdapter = true)
+data class NetworkNProposalContainer(val proposals: List<NProposal>)
 
 /**
  * Block represent a block on the network.
@@ -148,9 +152,10 @@ fun List<NetworkProposal>.asProposalModel(): List<Proposal>{
             endEpoch =  it.endEpoch ?: 0,
             graceEpoch = it.graceEpoch ?: 0,
             result = it.result?: "",
-            yayVotes = (it.yayVotes?: "0").toLong(),
-            nayVotes = (it.nayVotes?: "0").toLong(),
-            abstainVotes = (it.abstainVotes?: "0").toLong()
+            yayVotes = (it.yayVotes?: "0").toDouble(),
+            nayVotes = (it.nayVotes?: "0").toDouble(),
+            abstainVotes = (it.abstainVotes?: "0").toDouble(),
+            details = "" //no need
         )
     }
 }
@@ -170,6 +175,95 @@ data class NetworkProposal (
     @Json(name="abstain_votes" ) var abstainVotes : String? = null
 
 )
+
+@JsonClass(generateAdapter = true)
+data class NProposal (
+
+     @Json(name="proposal_id" ) var proposalId : String,
+     @Json(name="type"        ) var type       : String,
+     @Json(name="author"      ) var author     : String,
+     @Json(name="content"     ) var content    : String? = null,
+     @Json(name="start_epoch" ) var startEpoch : String,
+     @Json(name="end_epoch"   ) var endEpoch   : String,
+     @Json(name="grace_epoch" ) var graceEpoch : String,
+     @Json(name="result"      ) var result     : String? = null
+
+)
+/*
+    val id           : Int,
+    val content      : String,
+    val kind         : String,
+    val authorAddress       : String,
+    val startEpoch   : Int,
+    val endEpoch     : Int,
+    val graceEpoch   : Int,
+    val result       : String,
+    val yayVotes     : Long,
+    val nayVotes     : Long,
+    val abstainVotes : Long
+ */
+fun NProposal.asProposalModel(): Proposal {
+    val moshi: Moshi = Moshi.Builder().build()
+    val jsonAdapter: JsonAdapter<ProposalContent> = moshi.adapter(ProposalContent::class.java)
+    val proposalContent = this.content?.replace("\\\"", "\"")?.let { jsonAdapter.fromJson(it) }
+    val resultAdapter: JsonAdapter<ProposalResult> = moshi.adapter(ProposalResult::class.java)
+    val proposalResult = this.result?.replace("\\\"", "\"")?.let { resultAdapter.fromJson(it) }
+    return Proposal(
+        id = this.proposalId.toInt(),
+        content = proposalContent?.title ?: "",
+        kind = this.type,
+        authorAddress =  this.author,
+        startEpoch = this.startEpoch.toInt(),
+        endEpoch = this.endEpoch.toInt(),
+        graceEpoch = this.graceEpoch.toInt(),
+        result = proposalResult?.outcome ?: "",
+        yayVotes = proposalResult?.yay ?: 0.0,
+        nayVotes = proposalResult?.nay ?: 0.0,
+        abstainVotes = proposalResult?.abstain ?: 0.0,
+        details = this.content?.replace("\\\"", "\"")
+    )
+}
+
+fun List<NProposal>.asProposalModelList(): List<Proposal>{
+    return map { it.asProposalModel() }
+}
+@JsonClass(generateAdapter = true)
+data class ProposalContent (
+
+     @Json(name="abstract"       ) var abstract       : String? = null,
+     @Json(name="authors"        ) var authors        : String? = null,
+     @Json(name="created"        ) var created        : String? = null,
+     @Json(name="details"        ) var details        : String? = null,
+     @Json(name="discussions-to" ) var discussionsTo : String? = null,
+     @Json(name="license"        ) var license        : String? = null,
+     @Json(name="motivation"     ) var motivation     : String? = null,
+     @Json(name="requires"       ) var requires       : String? = null,
+     @Json(name="title"          ) var title          : String? = null
+
+)
+
+@JsonClass(generateAdapter = true)
+data class ProposalResult (
+     @Json(name="outcome"            ) var outcome          : String? = null,
+     @Json(name="yay"                ) var yay              : Double? = null,
+     @Json(name="nay"                ) var nay              : Double? = null,
+     @Json(name="abstain"            ) var abstain          : Double? = null,
+     @Json(name="total_voting_power" ) var totalVotingPower : Double? = null,
+     @Json(name="threshold"          ) var threshold        : Double? = null
+
+)
+/*
+    {
+      "proposal_id": "666",
+      "type": "Default",
+      "author": "tnam1qrnk6tymtq8p2enttnewcg9efph7pk6atvaw8p6r",
+      "content": "{\"abstract\":\"\", \"authors\":\"Devil, Satan, etc\", \"created\":\"2024-04-10T03:55:01Z\", \"details\":\"no\", \"discussions-to\":\"\", \"license\":\"HELL\", \"motivation\":\"evil only\", \"requires\":\"666\", \"title\":\"Devil's proposal😈\"}",
+      "start_epoch": "88",
+      "end_epoch": "90",
+      "grace_epoch": "92",
+      "result": "{\"outcome\":\"rejected\",\"yay\":49909594.698851,\"nay\":25414694.805497,\"abstain\":2776156.188282,\"total_voting_power\":268897900.697092,\"threshold\":179265267.131216}"
+    }
+ */
 
 @JsonClass(generateAdapter = true)
 data class Author (

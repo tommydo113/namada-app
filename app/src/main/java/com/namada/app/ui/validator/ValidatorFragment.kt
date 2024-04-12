@@ -77,7 +77,7 @@ class ValidatorFragment : Fragment() {
         progressDialog = ProgressDialog(requireContext())
         progressDialog?.setCancelable(false)
         progressDialog?.setMessage("Loading data, please wait for a moment")
-        progressDialog?.show()
+//        progressDialog?.show()
         viewModel.validators.observe(viewLifecycleOwner) { validators ->
             validators?.apply {
                 viewModelAdapter?.validators = validators
@@ -86,7 +86,7 @@ class ValidatorFragment : Fragment() {
                         .append(validators.size)
                 })
             }
-            progressDialog?.dismiss()
+//            progressDialog?.dismiss()
         }
         viewModel.isRefreshing.observe(viewLifecycleOwner){ isRefreshing ->
             swipeContainer.isRefreshing = isRefreshing
@@ -168,7 +168,7 @@ class ValidatorAdapter(val callback: ValidatorClick) : RecyclerView.Adapter<Vali
         val item = validators[position]
         holder.moniker.text = "${item.moniker} - Rank:${item.rank}"
         holder.votingPower.text = item.tokens.toString()
-        holder.votingPowerPercent.text = item.votingPercentage.toString()
+        holder.votingPowerPercent.text =  String.format("%.2f",item.votingPercentage)
         if(TextUtils.isEmpty(item.operatorAddress)) holder.address.visibility = View.GONE
     }
 

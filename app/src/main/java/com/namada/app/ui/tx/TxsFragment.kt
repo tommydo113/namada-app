@@ -92,7 +92,7 @@ class TxsFragment : Fragment() {
         progressDialog = ProgressDialog(requireContext())
         progressDialog.setCancelable(false)
         progressDialog?.setMessage("Loading data, please wait for a moment")
-        progressDialog?.show()
+//        progressDialog?.show()
         viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
             transactions?.apply {
                 viewModelAdapter?.transactions = transactions
@@ -100,7 +100,7 @@ class TxsFragment : Fragment() {
                     append("Last Transactions")
                 })
             }
-            progressDialog?.dismiss()
+//            progressDialog?.dismiss()
         }
         viewModel.isRefreshing.observe(viewLifecycleOwner){ isRefreshing ->
             swipeContainer.isRefreshing = isRefreshing

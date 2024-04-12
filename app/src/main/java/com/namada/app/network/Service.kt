@@ -104,4 +104,20 @@ object AppNetwork2 {
     val appService = retrofit.create(AppService2::class.java)
 }
 
+interface AppService4 {
+    @GET("getAllProposals")
+    suspend fun getProposalList(@Query("status") status: String,
+                                @Query("page") page: Int,
+                                @Query("limit") limit: Int): NetworkNProposalContainer //status=ongoing&page=1&limit=16
+}
+object AppNetwork4 {
+    // Configure retrofit to parse JSON and use coroutines
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("https://api.namada.valopers.com/")
+        .addConverterFactory(MoshiConverterFactory.create())
+        .build()
+
+    val appService = retrofit.create(AppService4::class.java)
+}
+
 

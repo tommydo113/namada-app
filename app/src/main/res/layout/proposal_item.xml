@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
+        android:onClick="@{() -> proposalCallback.onClick(proposal)}"
         app:cardCornerRadius="0dp"
         app:cardElevation="5dp">
 
@@ -89,20 +90,6 @@
                     android:layout_alignParentEnd="true"/>
             </RelativeLayout>
 
-<!--            <RelativeLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content">-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Yes/No" />-->
-<!--                <TextView-->
-<!--                    android:id="@+id/yes_no"-->
-<!--                    android:layout_alignParentEnd="true"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"/>-->
-<!--            </RelativeLayout>-->
             <LinearLayout
                 android:id="@+id/vote_result_layout"
                 android:layout_width="match_parent"

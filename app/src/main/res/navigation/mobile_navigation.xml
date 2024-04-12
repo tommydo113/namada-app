@@ -25,7 +25,11 @@
         android:id="@+id/navigation_proposal"
         android:name="com.namada.app.ui.proposal.ProposalFragment"
         android:label="@string/title_proposal"
-        tools:layout="@layout/fragment_proposal" />
+        tools:layout="@layout/fragment_proposal" >
+        <action
+            android:id="@+id/action_navigation_proposal_to_proposalDetailFragment"
+            app:destination="@id/proposalDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_transaction"
@@ -54,6 +58,15 @@
         <argument
             android:name="transaction"
             app:argType="com.namada.app.domain.Transaction"/>
+    </fragment>
+    <fragment
+        android:id="@+id/proposalDetailFragment"
+        android:name="com.namada.app.ui.proposaldetail.ProposalDetailFragment"
+        android:label="@string/proposal"
+        tools:layout="@layout/fragment_proposal_detail" >
+        <argument
+            android:name="proposal"
+            app:argType="com.namada.app.domain.Proposal" />
     </fragment>
 
 
